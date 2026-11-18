@@ -76,10 +76,53 @@ button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
 .kn button.good{background:var(--okb)}
 .kn button.dim{opacity:.35}
 /* هنا يمكنك إضافة المزيد من التنسيقات (مثال: .fc{font-size:20px}) */
+/* ===== تحسينات التنسيق والألوان (أيقونات SVG بدل الإيموجي) ===== */
+:root{--acc:#4f46e5;--acc2:#2f6fdb;--accs:#eef0ff;--sh:0 1px 2px rgba(16,24,40,.06),0 4px 12px rgba(16,24,40,.05);--selb:#4f46e5;--sel:#eceeff}
+@media(prefers-color-scheme:dark){:root:not([data-theme]){--acc:#8b93ff;--accs:#23264a;--sh:0 1px 2px rgba(0,0,0,.4),0 4px 12px rgba(0,0,0,.3);--selb:#8b93ff;--sel:#22264d}}
+:root[data-theme=dark]{--acc:#8b93ff;--accs:#23264a;--sh:0 1px 2px rgba(0,0,0,.4),0 4px 12px rgba(0,0,0,.3);--selb:#8b93ff;--sel:#22264d}
+.i{width:1.15em;height:1.15em;flex:none;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-.2em}
+body{background:linear-gradient(180deg,var(--bg),var(--bg)) fixed}
+header{background:var(--bg);box-shadow:0 2px 10px rgba(16,24,40,.05)}
+button{transition:background .15s,border-color .15s,box-shadow .15s,transform .1s,opacity .15s}
+button:active:not(:disabled){transform:scale(.98)}
+.bk,.th{display:inline-flex;align-items:center;justify-content:center;gap:6px;color:var(--acc);box-shadow:var(--sh)}
+.th{font-weight:600;font-size:13px;color:var(--tx)}
+.th .i{color:var(--acc)}
+.tab{display:flex;align-items:center;justify-content:center;gap:7px;box-shadow:var(--sh)}
+.tab.on{background:linear-gradient(135deg,var(--acc),var(--acc2));border-color:transparent;box-shadow:0 4px 12px rgba(79,70,229,.35)}
+#t{color:var(--acc)}
+.it{box-shadow:var(--sh);border-left:4px solid var(--acc);font-weight:600}
+.it:hover{border-color:var(--acc)}
+.it span{display:inline-flex;align-items:center;gap:4px;background:var(--accs);color:var(--acc);padding:3px 8px;border-radius:999px;font-weight:600}
+.pin{display:inline-flex;align-items:center;justify-content:center;color:var(--mu);opacity:1;filter:none;box-shadow:var(--sh)}
+.pin.on{color:#fff;background:var(--acc);border-color:var(--acc)}
+.pin.on .i{fill:currentColor}
+.cnt{display:flex;align-items:center;justify-content:center;gap:6px;font-weight:600}
+.cnt .sc{display:inline-flex;align-items:center;gap:4px;color:var(--okb);background:var(--ok);padding:2px 10px;border-radius:999px}
+.q{font-size:17px;line-height:1.45;padding:14px 16px;background:var(--card);border:1px solid var(--line);border-left:4px solid var(--acc);border-radius:12px;box-shadow:var(--sh)}
+.hint{display:inline-flex;align-items:center;gap:5px;background:var(--accs);color:var(--acc);padding:3px 10px;border-radius:999px;margin-top:6px}
+.o{align-items:flex-start;box-shadow:var(--sh)}
+.o b{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:50%;background:var(--accs);color:var(--acc);font-size:13px}
+.o.sel{background:var(--sel);border-color:var(--selb)}
+.o.sel b{background:var(--selb);color:#fff}
+.o.ok b{background:var(--okb);color:#fff}
+.o.ko b{background:var(--kob);color:#fff}
+.o.fix{cursor:default}
+.ex{display:flex;gap:10px;align-items:flex-start;border-left:4px solid #f59e0b;background:var(--card);box-shadow:var(--sh)}
+.ex .i{color:#f59e0b;margin-top:2px}
+.nav button{display:flex;align-items:center;justify-content:center;gap:6px;background:linear-gradient(135deg,var(--acc),var(--acc2));box-shadow:0 4px 12px rgba(79,70,229,.25)}
+.nav button:disabled{box-shadow:none}
+.sv{display:flex;align-items:center;justify-content:center;gap:7px;border:1.5px dashed var(--acc);color:var(--acc);background:var(--accs);font-weight:600}
+.fc{box-shadow:var(--sh);border-left:4px solid var(--acc)}
+.fc.bk{border-left-color:var(--okb)}
+.fc .hint{display:flex;width:max-content}
+.kn button.bad,.kn button.good{box-shadow:none}
+.kn button.bad{background:linear-gradient(135deg,#e05252,var(--kob))}
+.kn button.good{background:linear-gradient(135deg,#2fb36a,var(--okb))}
 </style>
 </head>
 <body>
-<header><div class="w" style="padding-top:0;padding-bottom:0"><div class="bar"><button class="bk" id="bk" aria-label="Retour">←</button><div id="path"></div><button class="th" id="th"></button></div><div class="tabs"><button class="tab on" data-m="qcm">📝 QCM</button><button class="tab" data-m="fc">🃏 Cartes</button></div><div id="t"></div></div></header>
+<header><div class="w" style="padding-top:0;padding-bottom:0"><div class="bar"><button class="bk" id="bk" aria-label="Retour"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></button><div id="path"></div><button class="th" id="th"></button></div><div class="tabs"><button class="tab on" data-m="qcm"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="m8 8 1.5 1.5L12 7"/><path d="M14 9h3"/><path d="m8 15 1.5 1.5L12 14"/><path d="M14 16h3"/></svg>QCM</button><button class="tab" data-m="fc"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="7" width="14" height="13" rx="2"/><path d="M7 7V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-2"/></svg>Cartes</button></div><div id="t"></div></div></header>
 <main class="w" id="m"></main>
 <script>
 // ===== 1) البيانات =====
@@ -90,6 +133,7 @@ const FC={"f":[[1,null,"M","Immunologie"],[5,1,"M","Introduction à l’immunopa
 // هنا يمكنك إضافة المزيد من البيانات (مثال: FC.c.push([9999,5,"سؤال؟","جواب"]))
 
 // ===== 2) أدوات صغيرة =====
+const IC={"back": "<svg class=\"i\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"m15 18-6-6 6-6\"/></svg>", "next": "<svg class=\"i\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"m9 18 6-6-6-6\"/></svg>", "prev": "<svg class=\"i\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"m15 18-6-6 6-6\"/></svg>", "qcm": "<svg class=\"i\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><rect x=\"4\" y=\"3\" width=\"16\" height=\"18\" rx=\"2\"/><path d=\"m8 8 1.5 1.5L12 7\"/><path d=\"M14 9h3\"/><path d=\"m8 15 1.5 1.5L12 14\"/><path d=\"M14 16h3\"/></svg>", "cards": "<svg class=\"i\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><rect x=\"3\" y=\"7\" width=\"14\" height=\"13\" rx=\"2\"/><path d=\"M7 7V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-2\"/></svg>", "pin": "<svg class=\"i\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 17v5\"/><path d=\"M9 3h6l-1 6 3 3v2H7v-2l3-3z\"/></svg>", "play": "<svg class=\"i\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M7 4.5v15l13-7.5z\"/></svg>", "check": "<svg class=\"i\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M20 6 9 17l-5-5\"/></svg>", "x": "<svg class=\"i\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M18 6 6 18M6 6l12 12\"/></svg>", "eye": "<svg class=\"i\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z\"/><circle cx=\"12\" cy=\"12\" r=\"3\"/></svg>", "list": "<svg class=\"i\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01\"/></svg>", "bulb": "<svg class=\"i\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M9 18h6M10 22h4\"/><path d=\"M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.2 1 2V17h6v-.3c0-.8.4-1.5 1-2A7 7 0 0 0 12 2z\"/></svg>", "touch": "<svg class=\"i\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M9 11V5a2 2 0 0 1 4 0v6\"/><path d=\"M13 10a2 2 0 0 1 4 0v4a7 7 0 0 1-7 7c-2.5 0-4-1-5.5-3L3 15a2 2 0 0 1 3-2l3 2\"/></svg>", "sun": "<svg class=\"i\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"4\"/><path d=\"M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4\"/></svg>", "moon": "<svg class=\"i\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z\"/></svg>", "auto": "<svg class=\"i\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"9\"/><path d=\"M12 3a9 9 0 0 1 0 18z\" fill=\"currentColor\"/></svg>"}; // أيقونات SVG
 const L='ABCDE'; // حروف الخيارات: الخيار رقم 0 = A ، رقم 1 = B ...
 const $=s=>document.querySelector(s); // اختصار: $('#m') يجلب العنصر الذي id="m"
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); // يحوّل الرموز الخطرة لنص آمن
@@ -118,15 +162,15 @@ function home(f){ // f = المجلد الحالي (null = الجذر)
   const kids=(f?f.ch:roots).filter(c=>c.n>0).map((c,j)=>[c,j]).sort((a,b)=>(PIN.has(b[0].id)-PIN.has(a[0].id))||a[1]-b[1]).map(z=>z[0]); // المجلدات غير الفارغة، المدبّسة أولاً
   $('#t').textContent=f?f.t:'Choisir un dossier'; // العنوان
   $('#path').textContent=f?pathOf(F.get(f.p)):''; // المسار
-  let h=kids.map(c=>`<div class="row"><button class="it" data-id="${c.id}">${esc(c.t)}<span>${c.n} ${S.unit} ›</span></button><button class="pin${PIN.has(c.id)?' on':''}" data-pin="${c.id}" aria-label="Épingler">📌</button></div>`).join(''); // زر لكل مجلد + دبوس
-  if(f&&f.qs.length){h=`<button class="it" data-go="${f.id}" style="border-color:var(--btn)">Commencer (${f.qs.length} ${S.unit})<span>▶</span></button>`+h} // زر البدء إذا كان للمجلد عناصر
+  let h=kids.map(c=>`<div class="row"><button class="it" data-id="${c.id}">${esc(c.t)}<span>${c.n} ${S.unit} ${IC.next}</span></button><button class="pin${PIN.has(c.id)?' on':''}" data-pin="${c.id}" aria-label="Épingler">${IC.pin}</button></div>`).join(''); // زر لكل مجلد + دبوس
+  if(f&&f.qs.length){h=`<button class="it" data-go="${f.id}" style="border-color:var(--btn)">Commencer (${f.qs.length} ${S.unit})<span>${IC.play}</span></button>`+h} // زر البدء إذا كان للمجلد عناصر
   if(f&&!kids.length&&!f.qs.length)h=`<p class="cnt">Aucun${S.kind==='fc'?'e carte':'e question'}</p>`; // مجلد فارغ
   $('#m').innerHTML=h;window.scrollTo(0,0); // نعرض ونصعد لأعلى الصفحة
 }
 function start(f){list=f.qs;i=0;ans={};rev={};show()} // بدء الجلسة: نصفّر كل شيء
 // ===== 5) عرض سؤال QCM / بطاقة =====
 function show(){S.kind==='fc'?showCard():showQ()} // نختار العرض حسب القسم
-function nav(){return `<div class="nav"><button id="pv" ${i?'':'disabled'}>← Précédent</button><button id="nx" ${i<list.length-1?'':'disabled'}>Suivant →</button></div>`} // أزرار السابق/التالي
+function nav(){return `<div class="nav"><button id="pv" ${i?'':'disabled'}>${IC.prev}Précédent</button><button id="nx" ${i<list.length-1?'':'disabled'}>Suivant${IC.next}</button></div>`} // أزرار السابق/التالي
 function bind(){ // ربط أزرار التنقل
   $('#pv').onclick=()=>{i--;show();window.scrollTo(0,0)}; // السابق
   $('#nx').onclick=()=>{i++;show();window.scrollTo(0,0)}; // التالي
@@ -135,12 +179,12 @@ function head(){$('#t').textContent=cur.t;$('#path').textContent=pathOf(F.get(cu
 function showQ(){ // عرض سؤال QCM (بدون تغيير)
   const q=list[i],a=ans[i]||[],R=rev[i]; // q السؤال، a إجاباتي، R هل كُشف الجواب
   head();
-  const sc=list.filter((x,j)=>{const c=ans[j]||[];return c.length&&c.length===x.a.length&&c.every(k=>x.a.includes(k))}).length; // عدد الأجوبة الصحيحة
-  let h=`<div class="cnt">${i+1} / ${list.length} &nbsp;·&nbsp; ✓ ${sc}</div><div class="q">${esc(q.q)}</div>${q.a.length>1?'<div class="hint">Plusieurs réponses possibles</div>':''}`; // العدّاد والسؤال
-  h+=q.o.map((o,k)=>{let c='';if(q.a.includes(k)&&(R||a.includes(k)))c='ok';else if(a.includes(k))c='ko'
-    return `<button class="o ${c}" data-k="${k}"><b>${L[k]}</b><span>${esc(o)}</span></button>`}).join(''); // الخيارات ملوّنة
-  if((a.length||R)&&q.e)h+=`<div class="ex">${esc(q.e)}</div>`; // الشرح بعد الإجابة
-  if(!R)h+=`<button class="sv" id="sv">Voir la réponse</button>`; // زر كشف الجواب
+  const sc=list.filter((x,j)=>{if(!rev[j])return false;const c=ans[j]||[];return c.length&&c.length===x.a.length&&c.every(k=>x.a.includes(k))}).length; // عدد الأجوبة الصحيحة
+  let h=`<div class="cnt">${i+1} / ${list.length} <span class="sc">${IC.check}${sc}</span></div><div class="q">${esc(q.q)}</div>${q.a.length>1?`<div class="hint">${IC.list}Plusieurs réponses possibles</div>`:''}`; // العدّاد والسؤال
+  h+=q.o.map((o,k)=>{let c='';if(R){if(q.a.includes(k))c='ok';else if(a.includes(k))c='ko'}else if(a.includes(k))c='sel' // لا تظليل صحيح/خاطئ قبل Voir la réponse
+    return `<button class="o ${c}${R?' fix':''}" data-k="${k}"><b>${L[k]}</b><span>${esc(o)}</span></button>`}).join(''); // الخيارات ملوّنة
+  if(R&&q.e)h+=`<div class="ex">${IC.bulb}<div>${esc(q.e)}</div></div>`; // الشرح بعد الإجابة
+  if(!R)h+=`<button class="sv" id="sv">${IC.eye}Voir la réponse</button>`; // زر كشف الجواب
   $('#m').innerHTML=h+nav();
   if($('#sv'))$('#sv').onclick=()=>{rev[i]=true;show()}; // كشف الجواب
   bind();
@@ -150,9 +194,9 @@ function showCard(){ // عرض بطاقة فلاش (نفس التنظيم)
   const c=list[i],R=rev[i],k=ans[i]; // c البطاقة، R هل ظهر الجواب، k رأيي: 1 أعرفها، 0 أراجعها
   head();
   const sc=Object.values(ans).filter(v=>v===1).length; // عدد البطاقات التي أعرفها
-  let h=`<div class="cnt">${i+1} / ${list.length} &nbsp;·&nbsp; ✓ ${sc}</div><button class="fc" data-flip="1"><div class="hint">Question</div>${esc(c.q)}${R?'':'<div class="tap">Touchez pour voir la réponse</div>'}</button>`; // الوجه الأمامي (يُنقر لقلبه)
-  if(R)h+=`<div class="fc bk"><div class="hint">Réponse</div>${esc(c.b)}</div><div class="nav kn"><button data-kn="0" class="bad${k===1?' dim':''}">✗ À revoir</button><button data-kn="1" class="good${k===0?' dim':''}">✓ Je sais</button></div>`; // الجواب + زرّا التقييم
-  if(!R)h+=`<button class="sv" id="sv">Voir la réponse</button>`; // زر كشف الجواب
+  let h=`<div class="cnt">${i+1} / ${list.length} <span class="sc">${IC.check}${sc}</span></div><button class="fc" data-flip="1"><div class="hint">Question</div>${esc(c.q)}${R?'':`<div class="tap">${IC.touch} Touchez pour voir la réponse</div>`}</button>`; // الوجه الأمامي (يُنقر لقلبه)
+  if(R)h+=`<div class="fc bk"><div class="hint">Réponse</div>${esc(c.b)}</div><div class="nav kn"><button data-kn="0" class="bad${k===1?' dim':''}">${IC.x}À revoir</button><button data-kn="1" class="good${k===0?' dim':''}">${IC.check}Je sais</button></div>`; // الجواب + زرّا التقييم
+  if(!R)h+=`<button class="sv" id="sv">${IC.eye}Voir la réponse</button>`; // زر كشف الجواب
   $('#m').innerHTML=h+nav();
   if($('#sv'))$('#sv').onclick=()=>{rev[i]=true;show()}; // كشف الجواب
   bind();
@@ -167,7 +211,7 @@ $('#m').addEventListener('click',e=>{
   if(b.dataset.kn!==undefined){ans[i]=+b.dataset.kn;const y=scrollY;show();scrollTo(0,y);return} // أعرفها / أراجعها
   if(b.dataset.id){const f=F.get(+b.dataset.id);const kids=f.ch.filter(c=>c.n>0); // فتح مجلد
     if(!kids.length&&f.qs.length){cur=f;start(f)}else home(f);return}
-  if(b.dataset.k!==undefined){const k=+b.dataset.k,a=ans[i]=ans[i]||[];if(!a.includes(k)){a.push(k);const y=scrollY;show();scrollTo(0,y)}} // اختيار جواب QCM
+  if(b.dataset.k!==undefined){const k=+b.dataset.k,a=ans[i]=ans[i]||[];if(rev[i])return;const p=a.indexOf(k);p<0?a.push(k):a.splice(p,1);const y=scrollY;show();scrollTo(0,y)} // اختيار جواب QCM
 });
 $('#bk').onclick=()=>{ // زر الرجوع
   if(list.length){list=[];const k=cur.ch.some(c=>c.n>0);home(k?cur:(F.get(cur.p)||null))} // من الجلسة إلى القائمة
@@ -182,9 +226,9 @@ function setMode(m){
 }
 document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>setMode(b.dataset.m)); // نقر التبويبات
 // ===== 8) السمة (جوّ/ليل) =====
-const TM=['auto','light','dark'],TL={auto:'🌗 Auto',light:'☀️ Jour',dark:'🌙 Nuit'}; // ثلاث حالات
+const TM=['auto','light','dark'],TL={auto:IC.auto+'Auto',light:IC.sun+'Jour',dark:IC.moon+'Nuit'}; // ثلاث حالات
 let tm='auto';try{tm=localStorage.getItem('qcm-theme')||'auto'}catch(e){} // استرجاع السمة
-function applyTheme(){const r=document.documentElement;if(tm==='auto')r.removeAttribute('data-theme');else r.setAttribute('data-theme',tm);$('#th').textContent=TL[tm]} // تطبيق السمة
+function applyTheme(){const r=document.documentElement;if(tm==='auto')r.removeAttribute('data-theme');else r.setAttribute('data-theme',tm);$('#th').innerHTML=TL[tm]} // تطبيق السمة
 $('#th').onclick=()=>{tm=TM[(TM.indexOf(tm)+1)%3];try{localStorage.setItem('qcm-theme',tm)}catch(e){}applyTheme()}; // تبديل السمة
 applyTheme();
 let m0='qcm';try{m0=localStorage.getItem('mode')||'qcm'}catch(e){} // آخر قسم مستعمل
