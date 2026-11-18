@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="ar" dir="rtl"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Valeria — الإدارة</title>
+<style>
+:root{--bg:#0b0d12;--c:#151821;--l:#262b38;--tx:#f4f1ea;--mu:#9aa0b2;--g:#e8c878;--on:#1a1306;--r:#ff8f8f;--ok:#7be0b0}
+*{box-sizing:border-box;margin:0}body{font-family:"Segoe UI",Tahoma,sans-serif;background:var(--bg);color:var(--tx);line-height:1.7;padding:16px}
+.w{max-width:980px;margin:0 auto}.bx{background:var(--c);border:1px solid var(--l);border-radius:18px;padding:18px;margin-bottom:14px}
+h1{font-size:24px;color:var(--g)}h2{font-size:17px;margin-bottom:10px}.mu{color:var(--mu);font-size:13px}
+input,select{font:inherit;padding:9px 12px;border-radius:10px;border:1px solid var(--l);background:#0e1017;color:var(--tx);min-width:0}
+button{font:inherit;cursor:pointer;border:0;border-radius:10px;padding:8px 14px;font-weight:700;background:var(--g);color:var(--on)}
+button.s{background:#222735;color:var(--tx);padding:5px 10px;font-weight:500;font-size:13px}button.d{color:var(--r)}
+.tabs{display:flex;gap:8px;margin:14px 0;flex-wrap:wrap}.tabs button{background:#222735;color:var(--tx)}.tabs button.on{background:var(--g);color:var(--on)}
+.g{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}.k{background:#0e1017;border:1px solid var(--l);border-radius:14px;padding:12px}
+.k b{display:block;font-size:28px;color:var(--g)}.f{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+table{width:100%;border-collapse:collapse;font-size:14px}td,th{padding:8px 6px;border-top:1px solid var(--l);text-align:right}th{color:var(--mu);font-weight:500}
+.sc{overflow-x:auto}.bar{height:8px;border-radius:6px;background:var(--g);margin-top:3px}.ok{color:var(--ok)}.bad{color:var(--r)}
+code{direction:ltr;display:inline-block;background:#0e1017;padding:1px 7px;border-radius:6px}
+textarea{width:100%;height:90px;font:13px monospace;direction:ltr;background:#0e1017;color:var(--tx);border:1px solid var(--l);border-radius:10px;padding:8px}
+[hidden]{display:none!important}#m{position:fixed;bottom:16px;left:16px;background:#222735;padding:10px 16px;border-radius:12px;display:none}
+
+/* ===== تصميم OKM ===== */
+:root{--bg:#000;--c:rgba(16,19,26,.72);--l:rgba(201,206,214,.22);--tx:#edeff3;--mu:rgba(201,206,214,.67);--g:#ffb866;--on:#1a1100}
+body{min-height:100vh;background:radial-gradient(120% 80% at 85% -10%,#1b1450 0,transparent 55%),radial-gradient(90% 70% at 0% 100%,#0b2e3d 0,transparent 60%),#000}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.75;background:radial-gradient(1px 1px at 8% 14%,#fff,transparent),radial-gradient(1.2px 1.2px at 22% 62%,#fff,transparent),radial-gradient(1px 1px at 37% 28%,#fff,transparent),radial-gradient(1.4px 1.4px at 51% 80%,#fff,transparent),radial-gradient(1px 1px at 66% 12%,#fff,transparent),radial-gradient(1.2px 1.2px at 78% 48%,#fff,transparent),radial-gradient(1px 1px at 91% 74%,#fff,transparent),radial-gradient(1px 1px at 14% 88%,#fff,transparent),radial-gradient(1.3px 1.3px at 58% 40%,#fff,transparent)}
+.w{position:relative}
+.bx{backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);box-shadow:0 10px 30px rgba(0,0,0,.4)}
+h1{background:linear-gradient(90deg,#c9ced6,#ffb866);-webkit-background-clip:text;background-clip:text;color:transparent;letter-spacing:.04em;font-weight:800}
+h2{color:#ffb866}
+button{background:linear-gradient(90deg,#c9ced6,#ffb866)}button.s{background:rgba(255,255,255,.08);color:var(--tx)}
+.tabs button{background:rgba(255,255,255,.08);color:var(--tx)}.tabs button.on{background:linear-gradient(90deg,#c9ced6,#ffb866);color:var(--on)}
+input,select,textarea{background:rgba(255,255,255,.05);border-color:var(--l)}.k,code{background:rgba(255,255,255,.05)}
+</style></head><body><div class="w">
+
+<div class="bx" id="lg"><h1>Valeria · الإدارة</h1><p class="mu">للمشرف فقط</p><div class="f" style="margin-top:12px">
+<input id="em" placeholder="الكود (أو البريد للمالك)" autocomplete="username" dir="ltr"><input id="pw" type="password" placeholder="كلمة المرور" autocomplete="current-password" hidden><button id="in">دخول</button></div>
+<p class="bad" id="le" style="margin-top:8px"></p></div>
+
+<div id="ap" hidden>
+<div class="f" style="justify-content:space-between"><h1>Valeria · الإدارة</h1><div class="f"><button class="s" id="rf">تحديث</button><button class="s" id="out">خروج</button></div></div>
+<div class="tabs"><button data-t="a" class="on">الإحصائيات</button><button data-t="b">الطلبة</button><button data-t="c">النسخ الاحتياطي</button><button data-t="d" hidden>الدروس</button><button data-t="e">الحدود</button><button data-t="f">استيراد</button><button data-t="g" hidden>التخصصات</button></div>
+
+<div id="ta"></div>
+
+<div id="tb" hidden>
+<div class="bx"><h2>إضافة أكواد</h2><div class="f">
+<input id="nm" placeholder="اسم الطالب (اختياري)" style="flex:1">
+<input id="cc" placeholder="كود مخصص (اختياري)" dir="ltr" style="width:170px">
+<input id="cn" type="number" min="1" max="400" value="1" style="width:80px" title="العدد">
+<input id="dy" type="number" min="1" value="365" style="width:90px" title="الأيام">
+<input id="mx" type="number" min="1" value="2" style="width:70px" title="الأجهزة">
+<select id="rl"><option value="">طالب</option><option value="mod">مشرف جزئي</option><option value="super">مشرف كلي</option></select><button id="ad">إنشاء</button></div>
+<p class="mu" style="margin-top:6px">الحقول: العدد، الأيام، الأجهزة المسموحة. اترك الكود المخصص فارغًا ليُولَّد تلقائيًا.</p>
+<textarea id="nw" hidden readonly></textarea></div>
+<div class="bx"><div class="f" style="margin-bottom:10px"><input id="sq" placeholder="ابحث بالكود أو الاسم" style="flex:1"><span class="mu" id="sn"></span></div>
+<div class="sc"><table><thead><tr><th>الكود</th><th>الاسم</th><th>الاشتراك</th><th>الأجهزة</th><th>التخصص</th><th></th></tr></thead><tbody id="rows"></tbody></table></div></div></div>
+
+<div id="tc" hidden><div class="bx"><h2>نسخة احتياطية</h2><div class="f">
+<button id="bj">نسخة كاملة (الأكواد + المحتوى)</button><button id="bc">تنزيل الأكواد (CSV)</button><button id="bd" class="s">إزالة المكرر</button>
+<label class="mu">استعادة: <input type="file" id="rs" accept=".json"></label></div>
+<p class="mu" style="margin-top:8px">تشمل النسخة الكاملة: الأكواد وأيامها وأجهزتها، والتخصصات، وكل محتوى الأقسام (روابط وQCM وأخبار ومواعيد)، وإعدادات التحديث.</p></div></div>
+<div id="te" hidden></div>
+<div id="tg" hidden></div>
+<div id="tf" hidden><div class="bx"><h2>استيراد نسخة من السيرفر القديم</h2>
+<p class="mu">1) اختر التخصص الذي ستُوضع فيه الروابط (أنشئه أولًا من المنصة إن لم يكن موجودًا). 2) اختر ملف النسخة (JSON). 3) اضغط استيراد.</p>
+<div class="f" style="margin:10px 0"><select id="imt" style="flex:1"></select></div>
+<input type="file" id="imf" accept=".json"><div id="imp" class="mu" style="margin:10px 0"></div>
+<button id="imb" disabled>استيراد الآن</button> <button id="imx" class="s" type="button">نسخة احتياطية لهذا التخصص</button></div></div>
+<div id="td" hidden><div class="bx"><h2>إضافة درس أو رابط</h2>
+<div class="f" id="sp"><select id="ifc"></select><select id="idp"></select><select id="isp"></select></div><p class="mu" id="sm" hidden></p>
+<div class="f" style="margin-top:8px"><select id="isc"></select><select id="iy"></select><input id="ifd" placeholder="اسم الدرس / المجلد (اختياري)" style="flex:1"></div>
+<div class="f" style="margin-top:8px"><input id="it" placeholder="العنوان" style="flex:1"><input id="iu" placeholder="https://" dir="ltr" style="flex:1"></div>
+<textarea id="ib" placeholder="نص الخبر" hidden style="margin-top:8px;height:120px"></textarea>
+<div class="f" id="dt" hidden style="margin-top:8px"><input id="iw" type="date"><input id="itm" type="time"></div>
+<div id="qb" hidden style="margin-top:8px"><p class="mu" style="margin-bottom:6px">علّم المربع بجانب الخيار الصحيح (أو عدة خيارات)</p><div id="qo"></div><button class="s" id="qa" type="button">+ خيار</button><input id="ie" placeholder="الشرح (اختياري)" style="width:100%;margin-top:8px"></div>
+<button id="ia" style="margin-top:10px">إضافة</button></div>
+<div class="bx"><div class="sc"><table><tbody id="il"></tbody></table></div></div></div>
+</div><div id="m"></div></div>
+
+<script>setTimeout(()=>{if(!window.__ok){const e=document.getElementById("le");if(e)e.textContent="تعذّر تشغيل الصفحة. افتحها من رابط https وليس كملف على الهاتف."}},3000)</script>
+<script type="module">
+import{initializeApp}from"https://www.gstatic.com/firebasejs/10.14.0/firebase-app.js";
+import{getAuth,signInWithEmailAndPassword,createUserWithEmailAndPassword,signOut,onAuthStateChanged}from"https://www.gstatic.com/firebasejs/10.14.0/firebase-auth.js";
+import{getFirestore,collection,getDocs,getDoc,addDoc,query,where,getCountFromServer,doc,setDoc,updateDoc,deleteDoc,deleteField,writeBatch,runTransaction}from"https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore.js";
+window.__ok=1;const app=initializeApp({apiKey:"AIzaSyABYShzBLN94AMY3HahMMlckzPDUVllUsI",authDomain:"ngeu-fed66.firebaseapp.com",projectId:"ngeu-fed66",appId:"1:479373777299:web:91e2fda2b127c8b0ccb066"});
+const au=getAuth(app),db=getFirestore(app),$=s=>document.querySelector(s);
+const esc=x=>String(x??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const FN=["الطب","ملحقة الأساتذة","الطبيعة والأرض","العلوم والتكنولوجيا","المادة والإعلام الآلي","اللغات الأجنبية","الآداب والفنون","الحقوق والسياسة","الاقتصاد والتجارة","العلوم الاجتماعية والإنسانية","معهد الرياضة"],FN0=["الطب","ملحقة الأساتذة","الطبيعة والأرض","العلوم والتكنولوجيا","المادة والإعلام الآلي","اللغات","الآداب والفنون","الحقوق","الاقتصاد","العلوم الاجتماعية","الرياضة"];
+const T=()=>new Date().toISOString().slice(0,10),add=(d,n)=>{const x=new Date(d+"T12:00:00Z");x.setUTCDate(x.getUTCDate()+n);return x.toISOString().slice(0,10)};
+const left=e=>e?Math.ceil((new Date(e+"T23:59:59Z")-Date.now())/864e5):0;
+let S=[],IC=0,SPN={},SPY={};
+const msg=t=>{const m=$("#m");m.textContent=t;m.style.display="block";setTimeout(()=>m.style.display="none",2600)};
+const why=e=>/permission/i.test(e.code||e.message)?"هذا الحساب ليس مشرفًا (تحقق من UID في القواعد)":/credential|password|user-not/.test(e.code||"")?"البريد أو كلمة المرور غير صحيحة":(e.message||"خطأ");
+$("#em").oninput=()=>$("#pw").hidden=!$("#em").value.includes("@");
+$("#in").onclick=async()=>{$("#le").textContent="جارٍ التحقق…";const v=$("#em").value.trim();try{if(v.includes("@"))await signInWithEmailAndPassword(au,v,$("#pw").value);else{const c=v.toUpperCase().replace(/[^A-Z0-9-]/g,""),x=await getDoc(doc(db,"students",c));if(!x.exists())return $("#le").textContent="الكود غير موجود";if(!["super","mod"].includes(x.data().role))return $("#le").textContent="هذا الكود ليس كود مشرف";const e=c.toLowerCase()+"@ngeu.app";try{await signInWithEmailAndPassword(au,e,c)}catch(z){await createUserWithEmailAndPassword(au,e,c)}}}catch(e){$("#le").textContent=why(e)}};
+$("#out").onclick=()=>signOut(au);
+let ME={};const SN=["دروس","ملخصات","ميديا","مواقع","كتب","تمارين واختبارات","أخبار","مؤسسات","مواعيد","QCM","3D"];
+$("#ifc").innerHTML=FN.map((n,i)=>`<option value=${i}>${n}</option>`).join("");$("#isc").innerHTML=SN.map((n,i)=>`<option value=${i}>${n}</option>`).join("");$("#iy").innerHTML="<option value=0>كل السنوات</option>"+[1,2,3,4,5,6,7].map(y=>`<option value=${y}>السنة ${y}</option>`).join("");
+onAuthStateChanged(au,async u=>{$("#lg").hidden=!!u;$("#ap").hidden=!u;if(!u)return;$("#pw").value="";ME={role:"super"};const m=(u.email||"").match(/^(.+)@ngeu\.app$/);
+ if(m){try{ME={...((await getDoc(doc(db,"students",m[1].toUpperCase()))).data()||{}),code:m[1].toUpperCase()}}catch(e){ME={}}}
+ const sup=ME.role=="super",mod=false;if(!sup){$("#le").textContent="هذه الصفحة للمشرف الكلي فقط";signOut(au);return}
+ const f=sup?"a":"d";document.querySelectorAll(".tabs button").forEach(b=>{b.hidden=!sup&&b.dataset.t!="d";b.classList.toggle("on",b.dataset.t==f)});["a","b","c","d","e","f","g"].forEach(k=>$("#t"+k).hidden=k!=f);
+ $("#rf").hidden=mod;$("#sp").hidden=mod;$("#sm").hidden=!mod;if(mod)$("#sm").textContent="تخصصك: "+(ME.spec||"لم تختره بعد من المنصة");if(sup)load();itemsLoad()});
+const scope=()=>ME.role=="mod"?{fac:ME.fac,dep:ME.dep,spec:ME.spec}:{fac:+$("#ifc").value,dep:$("#idp").value.trim(),spec:$("#isp").value.trim()};
+async function itemsLoad(){const c=scope();$("#il").innerHTML="";if(c.spec==null||c.spec===""||!c.dep)return;try{const q=await getDocs(query(collection(db,"items"),where("fac","==",c.fac),where("dep","==",c.dep),where("spec","==",c.spec)));
+ $("#il").innerHTML=q.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>a.sec-b.sec||(b.ts||0)-(a.ts||0)).map(x=>`<tr data-i="${esc(x.id)}"><td>${SN[x.sec]||x.sec} <span class="mu">${x.yr?"· س"+x.yr:"· كل السنوات"}</span></td><td class="mu">${esc(x.fd||"")}</td><td>${esc(x.t??x.e?.t)}</td><td><button class="s d">حذف</button></td></tr>`).join("")||'<tr><td class="mu">لا عناصر بعد</td></tr>'}catch(e){msg(why(e))}}
+const DPX={0:[["الطب",["طب عام"]],["الصيدلة",["صيدلة"]],["جراحة الأسنان",["طب الأسنان"]]],2:[["الجيولوجيا",["جيولوجيا تطبيقية","جيولوجيا بترولية","جيوفيزياء","هيدروجيولوجيا"]],["البيولوجيا",["بيولوجيا جزيئية","أحياء دقيقة","علم النبات"]],["علوم الأرض والكون",["علوم الجو","تهيئة إقليمية"]]],3:[["الهندسة المدنية",["بناءات","طرق"]],["الهندسة الميكانيكية",["طاقوية","إنتاجية"]],["الهندسة الكهربائية",["إلكترونيك","اتصالات"]]],4:[["الإعلام الآلي",["نظم معلومات","ذكاء اصطناعي","شبكات"]],["الفيزياء",["فيزياء نظرية","فيزياء المواد"]],["الكيمياء",["كيمياء عضوية","كيمياء تحليلية"]],["الرياضيات",["رياضيات أساسية","إحصاء"]]],5:[["اللغة العربية",["أدب عربي","لسانيات"]],["اللغة الفرنسية",["لغة وأدب فرنسي"]],["اللغة الإنجليزية",["لغة وأدب إنجليزي","ترجمة"]]],7:[["الحقوق",["قانون خاص","قانون عام"]],["العلوم السياسية",["علاقات دولية","تنظيم سياسي"]]],8:[["العلوم الاقتصادية",["اقتصاد كمي","اقتصاد نقدي"]],["علوم التسيير",["مالية","تسويق"]],["العلوم التجارية",["تجارة دولية"]]]};
+const TR=()=>{const f=+$("#ifc").value,m={};(DPX[f]||[]).forEach(([d,a])=>m[d]=[...a]);S.filter(z=>z.fac==f&&z.dep&&z.spec).forEach(z=>{m[z.dep]=[...new Set([...(m[z.dep]||[]),z.spec])]});return m};
+const opt=a=>a.map(x=>`<option>${esc(x)}</option>`).join("")+'<option value="__x">+ كتابة يدوية…</option>';
+function fillD(){const m=TR(),k=Object.keys(m),c=$("#idp").value;$("#idp").innerHTML=opt(k);if(k.includes(c))$("#idp").value=c;fillS()}
+function fillS(){const a=TR()[$("#idp").value]||[],c=$("#isp").value;$("#isp").innerHTML=opt(a);if(a.includes(c))$("#isp").value=c;itemsLoad()}
+const man=(el,af)=>{el.onchange=()=>{if(el.value=="__x"){const v=(prompt("اكتب الاسم بالضبط كما سيختاره الطلبة")||"").trim();if(v){el.insertAdjacentHTML("afterbegin",`<option>${esc(v)}</option>`);el.value=v}else el.selectedIndex=0}af()}};
+$("#ifc").onchange=fillD;man($("#idp"),fillS);man($("#isp"),itemsLoad);
+function frm(){const x=+$("#isc").value;$("#iu").hidden=x==6||x==8||x==9;$("#ib").hidden=x!=6;$("#dt").hidden=x!=8;$("#qb").hidden=x!=9;$("#ifd").hidden=x==6||x==8;$("#it").placeholder=x==9?"نص السؤال":"العنوان"}
+const qrow=()=>$("#qo").insertAdjacentHTML("beforeend",'<div class="f" style="margin-bottom:6px"><input type="checkbox"><input placeholder="خيار" style="flex:1"></div>');
+for(let i=0;i<4;i++)qrow();$("#qa").onclick=()=>{if($("#qo").children.length<8)qrow()};$("#isc").onchange=frm;frm();fillD();
+$("#ia").onclick=async()=>{const c=scope(),x=+$("#isc").value,t=$("#it").value.trim(),u=$("#iu").value.trim();if(!c.dep||c.dep=="__x"||!c.spec||c.spec=="__x")return msg("اختر الكلية والقسم والتخصص");if(!t)return msg("اكتب العنوان");
+ const o={...c,sec:x,yr:+$("#iy").value,by:ME.code||"owner",ts:Date.now(),t,kind:"l"};
+ if(x==6){o.kind="n";o.b=$("#ib").value}else if(x==8){o.kind="a";o.w=$("#iw").value;o.tm=$("#itm").value;if(!o.w)return msg("اختر التاريخ")}
+ else if(x==9){o.kind="q";o.o=[];o.c=[];[...$("#qo").children].forEach(r=>{const v=r.children[1].value.trim();if(v){if(r.children[0].checked)o.c.push(o.o.length);o.o.push(v)}});o.e=$("#ie").value.trim();if(o.o.length<2||!o.c.length)return msg("خياران على الأقل وإجابة صحيحة واحدة")}
+ else{if(!/^https?:\/\//i.test(u))return msg("الرابط يجب أن يبدأ بـ https://");o.u=u}
+ if(x!=6&&x!=8)o.fd=$("#ifd").value.trim();
+ try{await addDoc(collection(db,"items"),o);["#it","#iu","#ib","#ie"].forEach(q=>$(q).value="");$("#qo").querySelectorAll("input").forEach(q=>q.type=="checkbox"?q.checked=false:q.value="");msg("تمت الإضافة");itemsLoad()}catch(e){msg(why(e))}};
+$("#il").onclick=async e=>{const b=e.target.closest("button"),tr=e.target.closest("tr");if(!b||!confirm("حذف العنصر؟"))return;try{await deleteDoc(doc(db,"items",tr.dataset.i));itemsLoad()}catch(x){msg(why(x))}};
+document.querySelector(".tabs").onclick=e=>{const b=e.target.closest("button");if(!b)return;document.querySelectorAll(".tabs button").forEach(x=>x.classList.toggle("on",x==b));["a","b","c","d","e","f","g"].forEach(k=>$("#t"+k).hidden=k!=b.dataset.t);if(b.dataset.t=="e")usage()};
+$("#rf").onclick=load;
+
+async function load(){try{
+ S=(await getDocs(collection(db,"students"))).docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>(b.createdAt||0)-(a.createdAt||0));
+ const sp=await getDocs(collection(db,"specs"));SPN={};SPY={};sp.docs.forEach(d=>{const x=d.data();SPN[x.i]=String(x.n).replace("|"," · ");SPY[x.i]=x.y});SPL=sp.docs.map(d=>d.data());fillImp();renderSp();IC=sp.size*2;stats();rows()}catch(e){msg(why(e))}}
+
+function stats(){const t=T(),act=S.filter(s=>s.end>=t),by=(f)=>{const m={};S.forEach(s=>{const v=f(s);m[v]=(m[v]||0)+1});return Object.entries(m).sort((a,b)=>b[1]-a[1])};
+ const K=[["إجمالي الأكواد",S.length],["اشتراك فعّال",act.length],["منتهٍ",S.length-act.length],["لم يدخلوا بعد",S.filter(s=>!(s.devices||[]).length).length],["نشطون اليوم",S.filter(s=>s.lastSeen===t).length],["إجمالي الأجهزة",S.reduce((n,s)=>n+(s.devices||[]).length,0)],["ينتهون خلال 7 أيام",act.filter(s=>left(s.end)<=7).length],["اختاروا تخصصهم",S.filter(s=>s.spec!=null).length],["تخصصات مضافة",Object.keys(SPN).length]];
+ const L=(h,a)=>{const mx=Math.max(1,...a.map(x=>x[1]));return`<div class="bx"><h2>${h}</h2>${a.slice(0,10).map(([n,c])=>`<div style="margin-bottom:8px"><div class="f" style="justify-content:space-between"><span>${esc(n)}</span><b>${c}</b></div><div class="bar" style="width:${c/mx*100}%"></div></div>`).join("")||'<p class="mu">لا بيانات بعد</p>'}</div>`};
+ $("#ta").innerHTML=`<div class="g">${K.map(([n,v])=>`<div class="k"><span class="mu">${n}</span><b>${v}</b></div>`).join("")}</div><div style="height:14px"></div>`+
+  L("حسب الجامعة",by(s=>s.uni||"لم يحدد"))+L("حسب الكلية",by(s=>s.fac!=null?FN[s.fac]||s.fac:"لم يحدد"))+L("حسب التخصص",by(s=>s.spec?(SPN[s.spec]||"#"+s.spec):"لم يحدد"))+L("حسب السنة",by(s=>s.spec&&SPY[s.spec]?"السنة "+SPY[s.spec]:"لم تحدد"))}
+
+function rows(){const q=$("#sq").value.trim().toLowerCase(),a=S.filter(s=>!q||(s.id+" "+(s.nm||"")).toLowerCase().includes(q));$("#sn").textContent=a.length+" من "+S.length;
+ $("#rows").innerHTML=a.slice(0,200).map(s=>{const d=left(s.end),dv=(s.devices||[]).length;return`<tr data-c="${esc(s.id)}"><td><code>${esc(s.id)}</code></td><td>${esc(s.nm||"—")}${s.role?` <b class="ok">(${s.role=="super"?"كلي":"جزئي"})</b>`:""}</td><td class="${d>0?"ok":"bad"}">${d>0?d+" يوم":"منتهٍ"}<div class="mu">${esc(s.end||"")}</div></td><td>${dv}/${s.maxDev||2}</td><td class="mu">${esc(s.spec?(SPN[s.spec]||"#"+s.spec):"—")}</td>
+ <td class="f"><button class="s" data-a="ext">+أيام</button><button class="s" data-a="dev">تصفير الأجهزة</button><button class="s" data-a="max">حد الأجهزة</button><button class="s" data-a="rl">الدور</button><button class="s" data-a="rst">إعادة التخصص</button><button class="s d" data-a="del">حذف</button></td></tr>`}).join("")}
+$("#sq").oninput=rows;
+$("#rows").onclick=async e=>{const b=e.target.closest("button"),tr=e.target.closest("tr");if(!b)return;const c=tr.dataset.c,s=S.find(x=>x.id==c),r=doc(db,"students",c);
+ try{if(b.dataset.a=="ext"){const n=parseInt(prompt("كم يومًا تضيف؟ (سالب للإنقاص)","30"));if(!n)return;await updateDoc(r,{start:s.start||T(),end:add(s.end>T()?s.end:T(),n)})}
+ else if(b.dataset.a=="dev"){await updateDoc(r,{devices:[]})}
+ else if(b.dataset.a=="max"){const n=parseInt(prompt("الحد الأقصى للأجهزة؟",s.maxDev||2));if(!n)return;await updateDoc(r,{maxDev:n})}
+ else if(b.dataset.a=="rst"){if(!confirm("إعادة اختيار الجامعة والتخصص لهذا الطالب؟"))return;await updateDoc(r,{uni:deleteField(),fac:deleteField(),dep:deleteField(),spec:deleteField(),yr:deleteField()})}
+ else if(b.dataset.a=="rl"){const n=prompt("0 = طالب، 1 = مشرف جزئي (تخصصه)، 2 = مشرف كلي","1");if(n==null)return;await updateDoc(r,{role:["","mod","super"][+n]||deleteField()})}
+ else if(b.dataset.a=="del"){if(!confirm("حذف الكود "+c+" نهائيًا؟"))return;await deleteDoc(r)}
+ msg("تم");load()}catch(e){msg(why(e))}};
+
+const ch="ABCDEFGHJKMNPQRSTUVWXYZ23456789",rc=n=>Array.from({length:n},()=>ch[Math.random()*ch.length|0]).join("");
+$("#ad").onclick=async()=>{const n=Math.min(400,+$("#cn").value||1),dy=+$("#dy").value||365,mx=+$("#mx").value||2,cu=$("#cc").value.trim().toUpperCase().replace(/[^A-Z0-9-]/g,"");
+ const out=[];try{const b=writeBatch(db);for(let i=0;i<(cu?1:n);i++){const c=cu||"NG-"+rc(4)+"-"+rc(4);out.push(c);b.set(doc(db,"students",c),{nm:i?"":$("#nm").value.trim(),start:T(),end:add(T(),dy),maxDev:mx,devices:[],createdAt:Date.now()+i,...($("#rl").value?{role:$("#rl").value}:{})})}
+ await b.commit();const t=$("#nw");t.hidden=false;t.value=out.join("\n");msg("تم إنشاء "+out.length+" كود");load()}catch(e){msg(why(e))}};
+
+const dl=(n,t,m)=>{const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([t],{type:m}));a.download=n;a.click()};
+let SPL=[],IMD=null;const IMS={courses:0,summaries:1,media:2,sites:3,books:4,exercises:5,institutions:7};
+function mergeLinks(arr,L){const n={f:0,l:0,d:0};let id=Date.now();const nid=()=>++id,fold=(pid,name)=>{const f=arr.find(x=>x.k=="f"&&x.p==pid&&x.t==name);if(f)return f.id;const o={id:nid(),p:pid,k:"f",t:name};arr.push(o);n.f++;return o.id};
+ L.forEach(x=>{let pid=-1;(x.path||[]).forEach(nm=>{pid=fold(pid,String(nm))});if(x.kind!="l"||!x.url)return;const t=x.title||x.url;if(arr.some(z=>z.k=="l"&&z.p==pid&&z.u==x.url&&z.t==t)){n.d++;return}arr.push({id:nid(),p:pid,k:"l",t,u:x.url});n.l++});return n}
+function fillImp(){const a=SPL.slice().sort((x,y)=>x.f-y.f||String(x.n).localeCompare(String(y.n))||x.y-y.y);$("#imt").innerHTML=a.length?a.map(x=>`<option value="${x.f}|${x.i}">${esc(FN[x.f]||x.f)} · ${esc(String(x.n).replace("|"," · "))} · س${x.y}</option>`).join(""):'<option value="">لا توجد تخصصات: أضفها أولًا من المنصة</option>';$("#imb").disabled=!(IMD&&$("#imt").value)}
+$("#imt").onchange=()=>{$("#imb").disabled=!(IMD&&$("#imt").value)};
+$("#imf").onchange=async e=>{IMD=null;$("#imb").disabled=true;const f=e.target.files[0];if(!f)return;try{const j=JSON.parse(await f.text());if(j.app!="okm-library"||!Array.isArray(j.items))throw 0;IMD=j;const c={};j.items.forEach(x=>{c[x.s]=(c[x.s]||0)+1});$("#imp").innerHTML="نسخة "+esc(j.at||"")+" — "+j.items.length+" عنصر<br>"+Object.entries(c).map(([k,v])=>esc(k)+": "+v).join(" · ");$("#imb").disabled=!$("#imt").value}catch(x){$("#imp").textContent="ملف غير صالح: يجب أن يكون نسخة okm-library."}};
+$("#imb").onclick=async()=>{if(!IMD||!$("#imt").value)return;if(!confirm("استيراد "+IMD.items.length+" عنصر إلى التخصص المختار؟ لا يُحذف شيء ويُتجاهل المكرر."))return;
+ const[fc,sp]=$("#imt").value.split("|"),by={};IMD.items.forEach(x=>{const k=IMS[x.s];if(k!=null)(by[k]=by[k]||[]).push(x)});const skip=IMD.items.filter(x=>IMS[x.s]==null).length,tot={f:0,l:0,d:0};$("#imb").disabled=true;$("#imp").textContent="جارٍ الاستيراد…";
+ try{for(const[k,L]of Object.entries(by)){const ref=doc(db,"areas",`f${fc}y${sp}s${k}`);const r=await runTransaction(db,async t=>{const g=await t.get(ref),arr=g.exists()?JSON.parse(g.data().j||"[]"):[],n=mergeLinks(arr,L),j=JSON.stringify(arr);if(j.length>9e5)throw new Error("حجم القسم كبير جدًا (حد 1 MiB)");t.set(ref,{v:(g.exists()?g.data().v:0)+1,j});return n});tot.f+=r.f;tot.l+=r.l;tot.d+=r.d}
+ $("#imp").textContent=`تم: ${tot.f} مجلد، ${tot.l} رابط، وتُجوهل ${tot.d} مكرر`+(skip?`، و${skip} عنصر من أقسام غير مدعومة`:"");msg("اكتمل الاستيراد")}catch(e){$("#imp").textContent="";msg(why(e))}$("#imb").disabled=false};
+const IMR=Object.fromEntries(Object.entries(IMS).map(([k,v])=>[v,k])),IMA={courses:"دروس",summaries:"ملخصات",media:"ميديا",sites:"مواقع",books:"كتب",exercises:"تمارين واختبارات",institutions:"مؤسسات"};
+function buildLib(A,fc,sp,name){const items=[],counts={};for(const[k,arr]of Object.entries(A)){const sn=IMR[k];if(!sn)continue;const nm=id=>{const o=[];let c=arr.find(x=>x.id==id&&x.k=="f");while(c){o.unshift(c.t);c=arr.find(x=>x.id==c.p&&x.k=="f")}return o};
+ arr.forEach(x=>{if(x.k=="f")items.push({sec:"M",kind:"f",path:nm(x.id),s:sn});else if(x.k=="l"){items.push({sec:"M",kind:"l",path:nm(x.p),title:x.t,url:x.u,mtype:"lnk",s:sn});counts[IMA[sn]]=(counts[IMA[sn]]||0)+1}})}
+ return{app:"okm-library",version:1,at:new Date().toISOString().slice(0,19),origin:{okm:{fac:+fc,spec:+sp,name:name||""}},counts,items}}
+$("#imx").onclick=async()=>{const v=$("#imt").value;if(!v)return msg("اختر التخصص أولًا");const[fc,sp]=v.split("|"),A={};try{for(const k of Object.keys(IMR)){const g=await getDoc(doc(db,"areas",`f${fc}y${sp}s${k}`));if(g.exists())A[k]=JSON.parse(g.data().j||"[]")}
+ const lib=buildLib(A,fc,sp,$("#imt").selectedOptions[0].textContent),d=new Date();dl("okm-links-"+T()+"-"+String(d.getHours()).padStart(2,"0")+String(d.getMinutes()).padStart(2,"0")+".json",JSON.stringify(lib,null,1),"application/json");msg("تم: "+lib.items.length+" عنصر")}catch(e){msg(why(e))}};
+function renderSp(){const a=SPL.slice().sort((x,y)=>x.f-y.f||String(x.n).localeCompare(String(y.n))||x.y-y.y);$("#tg").innerHTML=`<div class="bx"><h2>التخصصات</h2><p class="mu">علّم «مدفوع» لإخفاء التخصص عن أصحاب التجربة المجانية. التخصص غير المعلَّم يراه كل زائر طوال التجربة.</p><div class="sc"><table><thead><tr><th>الكلية</th><th>التخصص</th><th>السنة</th><th>مدفوع</th></tr></thead><tbody>${a.map(x=>`<tr><td>${esc(FN[x.f]||x.f)}</td><td>${esc(String(x.n).replace("|"," · "))}</td><td>${x.y}</td><td><input type="checkbox" data-i="${x.i}"${x.paid?" checked":""}></td></tr>`).join("")||'<tr><td class="mu">لا توجد تخصصات</td></tr>'}</tbody></table></div></div>`}
+$("#tg").onchange=async e=>{const c=e.target;if(!c.dataset.i)return;try{await updateDoc(doc(db,"specs",c.dataset.i),{paid:c.checked});await setDoc(doc(db,"cfg","specs"),{v:Date.now()});const x=SPL.find(z=>String(z.i)==c.dataset.i);if(x)x.paid=c.checked;msg(c.checked?"مخفي عن التجربة المجانية":"ظاهر في التجربة المجانية")}catch(err){c.checked=!c.checked;msg(why(err))}};
+async function usage(){try{const days=[...Array(7)].map((_,i)=>add(T(),-i)),ds=await Promise.all(days.map(d=>getDoc(doc(db,"usage",d)))),D=ds.map((x,i)=>({d:days[i],r:0,w:0,...(x.data()||{})})),t=D[0],kb=Math.round((JSON.stringify(S).length+IC*600)/1024);
+ const bar=(n,c,l)=>`<div style="margin-bottom:12px"><div class="f" style="justify-content:space-between"><span>${n}</span><b>${c.toLocaleString()} / ${l.toLocaleString()}</b></div><div style="height:10px;background:#0e1017;border-radius:6px"><div style="height:10px;border-radius:6px;width:${Math.min(100,c/l*100)}%;background:${c/l>.8?"var(--r)":"var(--g)"}"></div></div></div>`;
+ $("#te").innerHTML=`<div class="bx"><h2>الاستهلاك اليوم (تقدير من المنصة)</h2>${bar("القراءات (الحد 50,000 يوميًا)",t.r,5e4)}${bar("الكتابات (الحد 20,000 يوميًا)",t.w,2e4)}${bar("التخزين التقريبي (الحد 1 GiB)",kb*1024,2**30)}
+ <p class="mu">الحذف (20,000 يوميًا) ونقل البيانات (10 GiB شهريًا) لا تُحصيهما المنصة. الأرقام تقديرية وتصلك بتأخر حتى 10 دقائق، ولا تشمل عمليات صفحة الإدارة. للأرقام الدقيقة افتح <a href="https://console.firebase.google.com/project/ngeu-fed66/firestore/usage" target="_blank" style="color:var(--g)">لوحة الاستهلاك في Firebase</a>.</p></div>
+ <div class="bx"><h2>حدود الخطة المجانية (Spark)</h2><table><tbody><tr><td>قراءات المستندات</td><td>50,000 / يوم</td></tr><tr><td>كتابات المستندات</td><td>20,000 / يوم</td></tr><tr><td>حذف المستندات</td><td>20,000 / يوم</td></tr><tr><td>التخزين</td><td>1 GiB</td></tr><tr><td>نقل البيانات للخارج</td><td>10 GiB / شهر</td></tr></tbody></table><p class="mu">عند بلوغ أي حد تتوقف الطلبات حتى اليوم التالي ولا يُخصم منك شيء. الحصص اليومية تتجدد منتصف الليل بتوقيت المحيط الهادئ.</p></div>
+ <div class="bx"><h2>آخر 7 أيام</h2><table><thead><tr><th>اليوم</th><th>قراءات</th><th>كتابات</th></tr></thead><tbody>${D.map(x=>`<tr><td>${x.d}</td><td>${(x.r||0).toLocaleString()}</td><td>${(x.w||0).toLocaleString()}</td></tr>`).join("")}</tbody></table></div>`}catch(e){msg(why(e))}}
+$("#bd").onclick=async()=>{if(!confirm("حذف المجلدات والعناصر المكررة؟ يُحتفظ بالأقدم."))return;try{
+ const R=(await getDocs(collection(db,"items"))).docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>(a.ts||0)-(b.ts||0)),sc=x=>[x.fac,x.dep,x.spec,x.sec,x.yr||0].join("|"),key=x=>x.e?sc(x)+"|"+x.e.k+"|"+x.e.p+"|"+x.e.t+"|"+(x.e.u||""):sc(x)+"|"+(x.kind||"l")+"|"+x.t+"|"+(x.u||"")+"|"+(x.fd||""),seen={},rm=new Set,rp={};
+ R.filter(x=>x.e&&x.e.k=="f").forEach(x=>{const k=key(x);if(!seen[k])seen[k]=x;else{rp[sc(x)+"|"+x.e.id]=seen[k].e.id;rm.add(x.id)}});
+ for(const x of R)if(x.e&&!rm.has(x.id)&&rp[sc(x)+"|"+x.e.p]!=null){const np=rp[sc(x)+"|"+x.e.p];await updateDoc(doc(db,"items",x.id),{"e.p":np});x.e.p=np}
+ const s2={};R.filter(x=>!rm.has(x.id)&&!(x.e&&x.e.k=="f")).forEach(x=>{const k=key(x);if(!s2[k])s2[k]=1;else rm.add(x.id)});
+ for(const id of rm)await deleteDoc(doc(db,"items",id));msg("حُذف "+rm.size+" مكرر");load()}catch(e){msg(why(e))}};
+$("#bj").onclick=async()=>{try{const out={app:"okm-backup",date:T()};for(const c of["students","specs","areas","cfg"])out[c]=(await getDocs(collection(db,c))).docs.map(d=>({id:d.id,...d.data()}));dl("valeria-backup-"+T()+".json",JSON.stringify(out),"application/json");msg("تم تنزيل النسخة ("+out.students.length+" كود، "+out.areas.length+" قسم)")}catch(e){msg(why(e))}};
+$("#bc").onclick=()=>{dl("ngeu-codes-"+T()+".csv","\ufeffcode,name,start,end,maxDevices,devices,university,specialty\n"+S.map(s=>[s.id,s.nm||"",s.start||"",s.end||"",s.maxDev||2,(s.devices||[]).length,s.uni||"",s.spec||""].map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(",")).join("\n"),"text/csv")};
+$("#rs").onchange=async e=>{const f=e.target.files[0];if(!f||!confirm("استعادة النسخة؟ ستُكتب فوق الأكواد والروابط المطابقة."))return;
+ try{const j=JSON.parse(await f.text()),all=["students","specs","areas","cfg","items"].flatMap(c=>(j[c]||[]).map(x=>[c,x]));
+ for(let i=0;i<all.length;i+=400){const b=writeBatch(db);all.slice(i,i+400).forEach(([c,x])=>{const{id,...d}=x;b.set(doc(db,c,id),d)});await b.commit()}msg("تمت الاستعادة: "+all.length);load()}catch(e){msg(why(e))}};
+</script></body></html>
