@@ -104,17 +104,11 @@ async function fMe(c,first){const{db,f}=await FBL,r=f.doc(db,"students",c),x=awa
 const UCF={r:0,w:0},SMP=Math.random()<.1,ucf=(r,w)=>{if(SMP){UCF.r+=r;UCF.w+=w}};
 async function fFlush(){if(!UCF.r&&!UCF.w)return;const{r,w}=UCF;UCF.r=UCF.w=0;try{const{db,f}=await FBL;await f.setDoc(f.doc(db,"usage",fTd()),{r:f.increment(r*10),w:f.increment(w*10+10)},{merge:true})}catch(e){UCF.r+=r;UCF.w+=w}}
 setInterval(fFlush,6e5);document.addEventListener("visibilitychange",()=>{if(document.hidden)fFlush()});setTimeout(fFlush,20000);
-async function fGuest(){const{u,au}=await FBL;if(au.currentUser&&au.currentUser.isAnonymous)return;if(au.currentUser)await u.signOut(au);await u.signInAnonymously(au)}
 async function fRoute(m,p,body,code){try{
  const{db,f}=await FBL,c=fUc(code),[pa,qs]=p.split("?"),v=+((qs||"").split("=")[1]||-1),bump=()=>f.setDoc(f.doc(db,"cfg","specs"),{v:Date.now()});
- if(c=="TRIAL"){const END=Date.UTC(2027,0,2);if(Date.now()>=END)return{rc:403,js:{e:"expired"}};
-  if(pa=="/login"||pa=="/me"){await fGuest();return{rc:200,js:{role:"",fac:+(LS.gf??-1),spec:+(LS.gs||0),exp:Math.ceil((END-Date.now())/864e5),un:"",uu:"",ut:0}}}
-  if(pa=="/pick"){if(+LS.gs>0)return{rc:403,js:null};LS.gf=body.fac;LS.gs=body.spec;return{rc:200,js:{}}}
-  if(m!="GET"&&pa!="/specs"||pa=="/upd"||pa=="/notify"||pa.startsWith("/specs/")||(pa=="/specs"&&m!="GET"))return{rc:403,js:null};
-  if(pa.startsWith("/a/"))await fGuest()}
  if(pa=="/login"){ucf(3,1);const r=await fMe(c,true);if(r.rc==200){LS.meC=c;LS.meJ=JSON.stringify(r.js);LS.meT=Date.now()}return r}
  if(pa=="/me"){if(LS.meC==c&&LS.meJ&&Date.now()-(+LS.meT||0)<3e5)return{rc:200,js:JSON.parse(LS.meJ)};ucf(2,0);const r=await fMe(c,false);if(r.rc==200){LS.meC=c;LS.meJ=JSON.stringify(r.js);LS.meT=Date.now()}return r}
- if(pa=="/specs"&&m=="GET"){if(v>=0&&Date.now()-(+LS.spT||0)<3e5)return{rc:200,js:{same:true}};LS.spT=Date.now();const g=await f.getDoc(f.doc(db,"cfg","specs")),cv=g.exists()?g.data().v:0;ucf(1,0);if(cv===v)return{rc:200,js:{same:true}};const l=await f.getDocs(f.collection(db,"specs"));ucf(l.size,0);return{rc:200,js:{s:l.docs.map(d=>d.data()).filter(x=>c!="TRIAL"||!x.paid),v:cv}}}
+ if(pa=="/specs"&&m=="GET"){if(v>=0&&Date.now()-(+LS.spT||0)<3e5)return{rc:200,js:{same:true}};LS.spT=Date.now();const g=await f.getDoc(f.doc(db,"cfg","specs")),cv=g.exists()?g.data().v:0;ucf(1,0);if(cv===v)return{rc:200,js:{same:true}};const l=await f.getDocs(f.collection(db,"specs"));ucf(l.size,0);return{rc:200,js:{s:l.docs.map(d=>d.data()),v:cv}}}
  if(pa=="/specs"&&m=="POST"){const i=Math.floor(Date.now()/1000);await f.setDoc(f.doc(db,"specs",""+i),{i,f:body.f,y:body.y,n:body.n});await bump();LS.spT=0;ucf(0,2);return{rc:200,js:{i}}}
  if(pa.startsWith("/specs/")&&m=="DELETE"){await f.deleteDoc(f.doc(db,"specs",pa.slice(7)));await bump();LS.spT=0;ucf(0,2);return{rc:200,js:{}}}
  if(pa=="/pick"){await f.updateDoc(f.doc(db,"students",c),{fac:body.fac,spec:body.spec});ucf(0,1);return{rc:200,js:{}}}
@@ -148,7 +142,7 @@ const V=["--b1","--b2","--b3","--tx","--mu","--cd","--sk","--a1","--a2","--bt"];
 const FAC=[["الطب","Médecine","Medicine"],["ملحقة الأساتذة","Annexe des enseignants","Teachers' Annex"],["الطبيعة والأرض","Nature et Terre","Nature & Earth"],["العلوم والتكنولوجيا","Sciences et Technologie","Science & Technology"],["المادة والإعلام الآلي","Matière et Informatique","Matter & Computer Sci."],["اللغات الأجنبية","Langues étrangères","Foreign Languages"],["الآداب والفنون","Lettres et Arts","Letters & Arts"],["الحقوق والسياسة","Droit et Sc. politiques","Law & Political Sci."],["الاقتصاد والتجارة","Économie et Commerce","Economics & Commerce"],["العلوم الاجتماعية والإنسانية","Sciences sociales et humaines","Social & Human Sciences"],["معهد الرياضة","Institut des sports","Sports Institute"]];
 const YRS=[3,5,5,5,5,5,5,5,5,5,5],EM=Array(11).fill("");
 const PAS=["#ff8a80","#ffd180","#a5d6a7","#81d4fa","#b39ddb","#f48fb1","#fff176","#80cbc4","#ffab91","#ce93d8","#c5e1a5"];
-const SEC=[["دروس","Cours","Lessons"],["ملخصات","Résumés","Summaries"],["ميديا","Média","Media"],["مواقع","Sites","Websites"],["كتب","Livres","Books"],["تمارين واختبارات","Exercices et examens","Exercises & Exams"],["أخبار","Actualités","News"],["مؤسسات","Établissements","Institutions"],["مواعيد","Échéances","Dates"],["3D","3D","3D"],["QCM","QCM","QCM"]];
+const SEC=[["دروس","Cours","Lessons"],["ملخصات","Résumés","Summaries"],["ميديا","Média","Media"],["مواقع","Sites","Websites"],["كتب","Livres","Books"],["تمارين واختبارات","Exercices et examens","Exercises & Exams"],["أخبار","Actualités","News"],["مؤسسات","Établissements","Institutions"],["مواعيد","Échéances","Dates"],["3D","3D","3D"],["QCM","QCM","QCM"],["فلاش كارد","Cartes mémoire","Flashcards"]];
 const SI=Array(9).fill("");
 let S={theme:+LS.th||0,lang:+LS.lg||0,style:+LS.fs||0,code:LS.code,admin:LS.adm=="1",fac:+(LS.fac??-1),year:+LS.yr||0,name:LS.nm||""};
 const $=s=>document.querySelector(s),T=(a)=>a[S.lang],tr=(a,f,e)=>[a,f,e][S.lang];
@@ -166,7 +160,7 @@ h+=`<div class=mu style="margin-top:8px">${tr("اللغة","Langue","Language")}
 p.innerHTML=h;p.querySelectorAll("[data-t]").forEach(e=>e.onclick=()=>{S.theme=+e.dataset.t;sv("th",S.theme);go()});p.querySelectorAll("[data-s]").forEach(e=>e.onclick=()=>{S.style=+e.dataset.s;sv("fs",S.style);go()});p.querySelectorAll("[data-l]").forEach(e=>e.onclick=()=>{S.lang=+e.dataset.l;sv("lg",S.lang);go()})}
 function go(){theme();bar();const o=$("#pal").style.display=="block";render();if(o){$("#pal").style.display="block";pal()}}
 // ===== login =====
-function login(){view="login";$("#app").innerHTML=`<div style="text-align:center;font-size:46px;font-weight:900;letter-spacing:3px;margin:50px 0 10px;text-shadow:0 0 14px var(--a1)">Valeria</div><input id=c placeholder="${tr("كود الاشتراك","Code d'abonnement","Subscription code")}" style="text-align:center"><div id=e style="color:#ff6b6b;text-align:center;min-height:24px;margin:10px"></div><button class=btn id=go>${tr("دخول","Se connecter","Sign in")}</button>${Date.now()<Date.UTC(2027,0,2)?`<button class=btn id=tr style="margin-top:12px;background:transparent;border:1px solid var(--sk);color:var(--tx)">${tr("تجربة مجانية حتى 1/1/2027","Essai gratuit jusqu'au 01/01/2027","Free trial until 01/01/2027")}</button>`:""}`;
+function login(){view="login";$("#app").innerHTML=`<div style="text-align:center;font-size:46px;font-weight:900;letter-spacing:3px;margin:50px 0 10px;text-shadow:0 0 14px var(--a1)">Valeria</div><input id=c placeholder="${tr("كود الاشتراك","Code d'abonnement","Subscription code")}" style="text-align:center"><div id=e style="color:#ff6b6b;text-align:center;min-height:24px;margin:10px"></div><button class=btn id=go>${tr("دخول","Se connecter","Sign in")}</button>`;
 $("#go").onclick=async()=>{const c=$("#c").value.trim();if(!c){$("#e").textContent=tr("الكود غير صحيح","Code incorrect","Invalid code");return}
 $("#e").textContent=tr("جارٍ التحقق...","Vérification...","Checking...");const r=await NET.call("POST","/login",{},c);if(r.rc==200&&r.js){me(r.js);S.code=c;sv("code",c);await loadSpecs();render();return}const e=(r.js&&r.js.e)||"";$("#e").textContent=r.rc==0?tr("لا يوجد اتصال بالإنترنت (أو CORS)","Pas de connexion (ou CORS)","No connection (or CORS)"):r.rc>=500?tr("السيرفر مشغول","Serveur occupé","Server busy")+(r.js&&r.js.c?" ("+r.js.c+")":""):e=="expired"?tr("انتهى اشتراكك","Abonnement expiré","Subscription expired"):e=="devices"?tr("تجاوزت عدد الأجهزة","Appareils dépassé","Device limit reached"):e=="off"?tr("الحساب موقوف","Compte suspendu","Account suspended"):e=="many"?tr("محاولات كثيرة","Trop d'essais","Too many tries"):tr("الكود غير صحيح","Code incorrect","Invalid code")}}
 // ===== home =====
@@ -196,15 +190,17 @@ function content(){if(sec==6)return news();if(sec==8)return dates();view="conten
 a.innerHTML=`<div style="display:flex;align-items:center;gap:8px;font-size:20px;font-weight:700"><button class=rb id=bk>${S.lang?"←":"→"}</button><span>${T(SEC[sec])}</span></div><div id=ls></div>`;
 $("#bk").onclick=()=>{if(stack.length){stack.pop();content()}else sections()};{const si=inp(tr("ابحث في هذا القسم","Rechercher dans cette section","Search this section"),qv);si.oninput=()=>{qv=si.value;q=qv.trim().toLowerCase();clearTimeout(qt);qt=setTimeout(()=>{content();const x=$("#ls input");if(x){x.focus();x.setSelectionRange(x.value.length,x.value.length)}},250)};$("#ls").prepend(si)}
 const items=all.filter(n=>q?((n.k=="f"||n.k=="l")&&n.t.toLowerCase().includes(q)):n.p==cur).sort((x,y)=>(y.pn|0)-(x.pn|0)||(x.k=="l")-(y.k=="l"));
-items.forEach(n=>{if(n.k=="q")return;const r=document.createElement("div");r.className="row card";r.innerHTML=`<div class="sk2" style="width:58px;height:58px">${CIK(n.k=="f"?"f":"d",famO(n.p,all),40)}</div><div style="flex:1"><b>${n.pn?IC("pin",13)+" ":""}${n.t.replace(/</g,"&lt;")}</b><div class=mu>${n.k=="f"?all.filter(x=>x.p==n.id).length+" "+tr("عنصر","élément(s)","item(s)"):new Date(n.id).toLocaleString()}</div></div>`;
+items.forEach(n=>{if(n.k=="q"||n.k=="c")return;const r=document.createElement("div");r.className="row card";r.innerHTML=`<div class="sk2" style="width:58px;height:58px">${CIK(n.k=="f"?"f":"d",famO(n.p,all),40)}</div><div style="flex:1"><b>${n.pn?IC("pin",13)+" ":""}${n.t.replace(/</g,"&lt;")}</b><div class=mu>${n.k=="f"?all.filter(x=>x.p==n.id).length+" "+tr("عنصر","élément(s)","item(s)"):new Date(n.id).toLocaleString()}</div></div>`;
 if(CA()){const p=document.createElement("span");p.innerHTML=IC("pin",16);p.style.opacity=n.pn?1:.4;p.onclick=e=>{e.stopPropagation();n.pn=!n.pn;save(all)};const x=document.createElement("span");x.innerHTML=IC("del",14);x.onclick=e=>{e.stopPropagation();dlg(tr("حذف","Supprimer","Delete"),`"${n.t}"؟`,[[tr("لا","Non","No")],[tr("نعم","Oui","Yes"),()=>{const rm=id=>{all.filter(z=>z.p==id).forEach(z=>rm(z.id));const i=all.findIndex(z=>z.id==id);if(i>=0)all.splice(i,1)};rm(n.id);save(all)}]])};r.append(p,x)}
 r.onclick=()=>{if(n.k=="f"){if(q){const pth=[];let x=n;while(x){pth.unshift(x.id);x=all.find(z=>z.id==x.p)}stack=pth;q=qv=""}else stack.push(n.id);content()}else openLink(n.u)};$("#ls").append(r)});
 if(sec==10)qRender(items,all);
+if(sec==11)fRender(items,all);
 if(!items.length)$("#ls").innerHTML=`<div class=mu style="text-align:center;padding:30px">${CA()?tr("لا شيء هنا بعد.","Rien ici.","Nothing here yet."):tr("لا يوجد محتوى بعد.","Aucun contenu.","No content yet.")}</div>`;
 if(CA()){const w=document.createElement("div");w.style.textAlign="center";const mk=(l,f)=>{const b=document.createElement("button");b.className="pill";b.textContent=l;b.onclick=f;return b};
 w.append(mk(stack.length?tr("+ مجلد","+ Dossier","+ Folder"):tr("+ قسم","+ Section","+ Section"),()=>{const i=inp(tr("الاسم","Nom","Name"));dlg(tr("اسم جديد","Nouveau nom","New name"),i,[[tr("حفظ","Enregistrer","Save"),()=>{if(i.value.trim()){all.push({id:Date.now(),p:cur,k:"f",t:i.value.trim()});save(all)}}]])}));
 if(stack.length)w.append(mk(tr("+ رابط","+ Lien","+ Link"),()=>{const u=inp("https://..."),t=inp(tr("العنوان الظاهر","Titre affiché","Display title"));dlg(tr("رابط جديد","Nouveau lien","New link"),[u,t],[[tr("حفظ","Enregistrer","Save"),()=>{if(!u.value.startsWith("http")){toast("https");return}all.push({id:Date.now(),p:cur,k:"l",t:t.value.trim()||u.value,u:u.value.trim()});save(all)}]])}));
 if(sec==10)w.append(mk("+ QCM",()=>qDlg(all,null,cur)));
+if(sec==11)w.append(mk("+ "+tr("بطاقة","Carte","Card"),()=>fDlg(all,null,cur)));
 $("#ls").append(w)}}
 function save(all){sv(key(),JSON.stringify(all));content()}
 function render(){theme();bar();if(!S.code)login();else if(view=="sec"&&pf!=null)sections();else if(view=="content"&&pf!=null)content();else home()}
@@ -436,6 +432,7 @@ const XI={
 };
 XI[9]=Mp("M12 3L20 7.5L20 16.5L12 21L4 16.5L4 7.5Z")+Gp("M12 3L20 7.5L12 12L4 7.5Z")+En(12,12,12,21)+En(4,7.5,12,12)+Sp(20.4,3.8,2.4);
 XI[10]=Mr(4.5,3,19.5,21,3)+Dr(6.3,4.8,17.7,19.2,2)+Gc(8.8,9,1.5)+Gc(8.8,15,1.5)+Ln(12,9,16,9,"#fff1d6",1.2)+Ln(12,15,16,15,"#fff1d6",1.2)+Sp(20.6,4,2.4);
+XI[11]=Mr(2.5,8,16.5,21,3)+Mr(7.5,3,21.5,16,3)+Dr(9.2,4.7,19.8,14.3,2)+Ln(11.5,8,17.5,8,"#fff1d6",1.2)+Ln(11.5,11,16,11,"#fff1d6",1.2)+Sp(20.6,4,2.4);
 const xi=(id,s)=>`<svg viewBox="0 0 24 24" width="${s}" height="${s}" style="overflow:visible;flex:none" stroke-linejoin="round"><circle cx="12" cy="12" r="12" fill="url(#gl)"/>${XI[id]}</svg>`;
 
 /* ===== أيقونات الكليات الهزلية (التصميم 5) ===== */
@@ -545,13 +542,13 @@ facs($("#fl"));if(!S.admin&&S.fac<0)pick()}
 
 /* ===== صفحة الأقسام ===== */
 function sections(){const fh=view=="home";clearInterval(TK);view="sec";sec=-1;stack=[];const a=$("#app");a.innerHTML=`<div style="display:flex;align-items:center;gap:8px;font-size:20px;font-weight:700"><button class=rb id=bk>${S.lang?"←":"→"}</button><span>${T(FAC[pf])} · ${yw(py)}</span></div><div id=ls style="padding-bottom:20px"></div>`;$("#bk").onclick=home;
-[0,9,1,2,3,4,5,10,6,7,8].forEach((i,k)=>{const s=SEC[i];if(i==10&&pf!=0)return;const r=document.createElement("div");r.className="sc";r.style.animationDelay=k*70+"ms";r.innerHTML=`<span class=cp><i class=pr style="animation-delay:${i*.3}s"></i>${xi(i,34)}</span><b>${T(s)}</b><span class=ar>${S.lang?"›":"‹"}</span>`;r.onclick=()=>{sec=i;stack=[];q=qv="";content();syncC()};$("#ls").append(r)});if(fh)reveal()}
+[0,9,1,2,3,4,5,10,11,6,7,8].forEach((i,k)=>{const s=SEC[i];if((i==10||i==11)&&pf!=0)return;const r=document.createElement("div");r.className="sc";r.style.animationDelay=k*70+"ms";r.innerHTML=`<span class=cp><i class=pr style="animation-delay:${i*.3}s"></i>${xi(i,34)}</span><b>${T(s)}</b><span class=ar>${S.lang?"›":"‹"}</span>`;r.onclick=()=>{sec=i;stack=[];q=qv="";content();syncC()};$("#ls").append(r)});if(fh)reveal()}
 
 /* ===== شاشة الدخول بالشعار المتحرك ===== */
-function login(){view="login";$("#app").innerHTML=`<canvas id="lg" style="width:100%;height:150px;display:block;margin-top:30px"></canvas><input id=c placeholder="${tr("كود الاشتراك","Code d'abonnement","Subscription code")}" style="text-align:center;margin-top:24px"><div id=e style="color:#ff6b6b;text-align:center;min-height:24px;margin:10px"></div><button class=btn id=go>${tr("دخول","Se connecter","Sign in")}</button>${Date.now()<Date.UTC(2027,0,2)?`<button class=btn id=tr style="margin-top:12px;background:transparent;border:1px solid var(--sk);color:var(--tx)">${tr("تجربة مجانية حتى 1/1/2027","Essai gratuit jusqu'au 01/01/2027","Free trial until 01/01/2027")}</button>`:""}`;xlogo($("#lg"));
+function login(){view="login";$("#app").innerHTML=`<canvas id="lg" style="width:100%;height:150px;display:block;margin-top:30px"></canvas><input id=c placeholder="${tr("كود الاشتراك","Code d'abonnement","Subscription code")}" style="text-align:center;margin-top:24px"><div id=e style="color:#ff6b6b;text-align:center;min-height:24px;margin:10px"></div><button class=btn id=go>${tr("دخول","Se connecter","Sign in")}</button>`;xlogo($("#lg"));
 const run=async()=>{const c=$("#c").value.trim();if(!c){$("#e").textContent=tr("الكود غير صحيح","Code incorrect","Invalid code");return}
 $("#e").textContent=tr("جارٍ التحقق...","Vérification...","Checking...");const r=await NET.call("POST","/login",{},c);if(r.rc==200&&r.js){me(r.js);S.code=c;sv("code",c);await loadSpecs();render();return}const e=(r.js&&r.js.e)||"";$("#e").textContent=r.rc==0?tr("لا يوجد اتصال بالإنترنت (أو CORS)","Pas de connexion (ou CORS)","No connection (or CORS)"):r.rc>=500?tr("السيرفر مشغول","Serveur occupé","Server busy")+(r.js&&r.js.c?" ("+r.js.c+")":""):e=="expired"?tr("انتهى اشتراكك","Abonnement expiré","Subscription expired"):e=="devices"?tr("تجاوزت عدد الأجهزة","Appareils dépassé","Device limit reached"):e=="off"?tr("الحساب موقوف","Compte suspendu","Account suspended"):e=="many"?tr("محاولات كثيرة","Trop d'essais","Too many tries"):tr("الكود غير صحيح","Code incorrect","Invalid code")};
-$("#go").onclick=run;if($("#tr"))$("#tr").onclick=()=>{$("#c").value="TRIAL";run()};$("#c").onkeydown=e=>{if(e.key=="Enter")run()}}
+$("#go").onclick=run;$("#c").onkeydown=e=>{if(e.key=="Enter")run()}}
 
 /* ===== رموز طافية خلف الصفحات (مثل Art.Bg.floaters) ===== */
 const GLX=[["✚","○"],["◆","▤"],["❦","○"],["⚛\uFE0E","○"],["01","10"],["A","ع","文","B","é","Я"],["♪","♫","✎"],["⚖\uFE0E","§"],["$","↗"],["☺\uFE0E","○"],["◍","○"]];
@@ -706,6 +703,36 @@ function qRender(items,all){
    if(CA()){const h=c.querySelector(".qh");adm(n,all,x=>qDlg(all,x,n.p)).forEach(z=>h.append(z))}};
   c._d=draw;draw();ls.append(c)});
  upd();ls.append(sc)}
+/* ===== بطاقات الفلاش (من تطبيق Valeria): بطاقة = سؤال/جواب، التقدّم محفوظ في جهاز الطالب ===== */
+let FK={};try{FK=JSON.parse(LS.fk)||{}}catch(e){}
+const fsv=()=>{LS.fk=JSON.stringify(FK)};
+function fDlg(all,ed,cur){const t=document.createElement("textarea"),a=document.createElement("textarea");
+ t.placeholder=tr("السؤال (الوجه الأمامي)","Question (recto)","Question (front)");a.placeholder=tr("الجواب (الوجه الخلفي)","Réponse (verso)","Answer (back)");t.rows=3;a.rows=4;t.maxLength=1500;a.maxLength=3000;
+ [t,a].forEach(x=>{x.setAttribute("dir","auto");x.style.fontFamily="inherit"});if(ed){t.value=ed.t;a.value=ed.a||""}
+ dlg(ed?tr("تعديل بطاقة","Modifier la carte","Edit card"):tr("بطاقة جديدة","Nouvelle carte","New card"),[t,a],[[tr("إلغاء","Annuler","Cancel")],[tr("حفظ","Enregistrer","Save"),()=>{const q=t.value.trim(),an=a.value.trim();if(!q||!an){toast(tr("اكتب السؤال والجواب","Remplissez les deux champs","Fill both fields"));return false}
+  if(ed){ed.t=q;ed.a=an}else all.push({id:Date.now(),p:cur,k:"c",t:q,a:an});save(all)}]])}
+function fRender(items,all){const L=items.filter(n=>n.k=="c");if(!L.length)return;const ls=$("#ls"),bar=document.createElement("div");
+ bar.className="card";bar.style.cssText="display:flex;align-items:center;gap:12px;margin:10px 0";
+ const upd=()=>{const kn=L.filter(n=>FK[n.id]).length;bar.innerHTML=`<div class="sk2" style="width:52px;height:52px">${xi(11,34)}</div><div style="flex:1"><div class="mu">${tr("عرفتها","Connues","Known")}</div><b style="font-size:22px;color:var(--a1)">${kn} / ${L.length}</b></div><button class="pill" id="fst">▶ ${tr("مذاكرة","Réviser","Study")}</button>`;bar.querySelector("#fst").onclick=()=>fStudy(L,upd)};
+ upd();ls.append(bar);
+ L.forEach((n,i)=>{const c=card();let back=0;
+  const draw=()=>{c.innerHTML=`<div class="fh" style="display:flex;gap:8px;align-items:flex-start"><div dir="auto" style="flex:1;white-space:pre-wrap;line-height:1.55;text-align:start;min-height:40px">${back?`<span class="mu" style="font-size:12px">${tr("الجواب","Réponse","Answer")}</span><br>${esc(n.a)}`:`<span style="color:var(--a1)">${i+1}.</span> ${esc(n.t)}`}</div><span class="fk" style="cursor:pointer;font-size:22px;padding:0 4px;color:${FK[n.id]?QG:"var(--mu)"}">${FK[n.id]?"✓":"○"}</span></div>`;
+   c.querySelector(".fk").onclick=e=>{e.stopPropagation();FK[n.id]?delete FK[n.id]:FK[n.id]=1;fsv();draw();upd()};
+   c.onclick=()=>{back=!back;draw()};if(CA()){const h=c.querySelector(".fh");adm(n,all,x=>fDlg(all,x,n.p)).forEach(z=>h.append(z))}};
+  draw();ls.append(c)})}
+/* وضع المذاكرة: بطاقة واحدة كل مرة؛ «عرفتها» تخرج من الطابور و«لم أعرفها» تعود لآخره حتى تنتهي كلها */
+function fStudy(L,done){const v=document.createElement("div");v.style.cssText="position:fixed;inset:0;z-index:90;background:var(--b2);display:flex;flex-direction:column;padding:16px;gap:12px";
+ let Q=L.filter(n=>!FK[n.id]);if(!Q.length)Q=L.slice();Q.sort(()=>Math.random()-.5);const tot=Q.length;let back=0,dn=0;
+ const close=()=>{v.remove();done()};
+ const draw=()=>{if(!Q.length){v.innerHTML=`<div style="margin:auto;text-align:center"><div style="font-size:56px">🎉</div><b style="font-size:20px">${tr("أنهيت كل البطاقات","Toutes les cartes sont faites","All cards done")}</b><br><br><button class="btn" id="x">${tr("إغلاق","Fermer","Close")}</button></div>`;v.querySelector("#x").onclick=close;return}
+  const n=Q[0];v.innerHTML=`<div style="display:flex;align-items:center;gap:10px"><button class="rb" id="x">✕</button><div style="flex:1;height:8px;border-radius:6px;background:var(--cd);overflow:hidden"><div style="height:100%;width:${dn/tot*100}%;background:var(--a1)"></div></div><span class="mu">${dn}/${tot}</span></div>
+  <div class="card" id="cd" dir="auto" style="flex:1;display:flex;align-items:center;justify-content:center;text-align:center;padding:24px;cursor:pointer;font-size:19px;line-height:1.7;white-space:pre-wrap;overflow:auto">${esc(back?n.a:n.t)}</div>
+  <div class="mu" style="text-align:center">${tr("اضغط البطاقة لقلبها","Touchez la carte pour la retourner","Tap the card to flip it")}</div>
+  <div style="display:flex;gap:10px"><button class="btn" id="no" style="background:var(--cd);color:var(--tx);border:1px solid var(--sk)">${tr("لم أعرفها","Je ne sais pas","Didn't know")}</button><button class="btn" id="ok">${tr("عرفتها","Je sais","Knew it")}</button></div>`;
+  v.querySelector("#x").onclick=close;v.querySelector("#cd").onclick=()=>{back=!back;draw()};
+  v.querySelector("#no").onclick=()=>{Q.push(Q.shift());back=0;draw()};
+  v.querySelector("#ok").onclick=()=>{FK[n.id]=1;fsv();Q.shift();dn++;back=0;draw()}};
+ draw();document.body.append(v)}
 </script>
 <script>
 /* ===== تثبيت كتطبيق دائمًا ===== */
