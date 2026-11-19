@@ -120,10 +120,32 @@ button:active:not(:disabled){transform:scale(.98)}
 .kn button.bad{background:linear-gradient(135deg,#e05252,var(--kob))}
 .kn button.good{background:linear-gradient(135deg,#2fb36a,var(--okb))}
 .row.err .it{border-left-color:var(--kob)}.row.err .it>.i{color:var(--kob)}.row.err .it span{background:var(--ko);color:var(--kob)}.row.err .pin{color:var(--kob)}.it .i{margin-right:8px}
+.tr{display:flex;align-items:center;gap:10px;margin-top:8px}
+.tr #t{margin:0;min-width:0}
+.tr .bk{width:38px;height:38px}
+.th{border:0;color:#fff;box-shadow:0 3px 10px rgba(0,0,0,.18)}
+.th .i{color:#fff}
+.th[data-t=auto]{background:linear-gradient(135deg,#6366f1,#a855f7)}
+.th[data-t=light]{background:linear-gradient(135deg,#fbbf24,#f97316)}
+.th[data-t=dark]{background:linear-gradient(135deg,#1e1b4b,#4338ca)}
+/* ===== ثيمات ألوان إضافية ===== */
+:root[data-theme=ocean]{--bg:#eef7fb;--card:#ffffff;--tx:#0f2a3a;--mu:#5b7686;--line:#d3e6ee;--ok:#d9f5ea;--okb:#14946a;--ko:#fde4e4;--kob:#d13b3b;--btn:#0891b2;--acc:#0e7490;--acc2:#0891b2;--accs:#def3f8;--sel:#def3f8;--selb:#0891b2;color-scheme:light}
+.th[data-t=ocean]{background:linear-gradient(135deg,#06b6d4,#2563eb)}
+:root[data-theme=forest]{--bg:#f1f7f1;--card:#ffffff;--tx:#14261b;--mu:#5f7a68;--line:#d6e5da;--ok:#d7f3df;--okb:#1f9d55;--ko:#fde4e4;--kob:#d13b3b;--btn:#2f855a;--acc:#2f7d4f;--acc2:#4d9f6b;--accs:#e1f2e6;--sel:#e1f2e6;--selb:#2f855a;color-scheme:light}
+.th[data-t=forest]{background:linear-gradient(135deg,#34d399,#15803d)}
+:root[data-theme=rose]{--bg:#fdf2f6;--card:#ffffff;--tx:#2a1620;--mu:#8a6676;--line:#f1d9e3;--ok:#dcf6e5;--okb:#1f9d55;--ko:#fde3e3;--kob:#d13b3b;--btn:#db2777;--acc:#be185d;--acc2:#ec4899;--accs:#fce7f1;--sel:#fce7f1;--selb:#db2777;color-scheme:light}
+.th[data-t=rose]{background:linear-gradient(135deg,#f472b6,#e11d48)}
+:root[data-theme=sable]{--bg:#faf5ec;--card:#fffdf8;--tx:#2b2417;--mu:#7d705a;--line:#eadfca;--ok:#dcf2dc;--okb:#3d9a4a;--ko:#fde3dc;--kob:#cf4a32;--btn:#b45309;--acc:#b45309;--acc2:#d97706;--accs:#fbecd2;--sel:#fbecd2;--selb:#d97706;color-scheme:light}
+.th[data-t=sable]{background:linear-gradient(135deg,#d6a35c,#b45309)}
+:root[data-theme=amethyst]{--bg:#14101f;--card:#1e1830;--tx:#efeaff;--mu:#a59cc4;--line:#342b50;--ok:#17402d;--okb:#3ec27a;--ko:#4a2030;--kob:#f06a8a;--btn:#8b5cf6;--acc:#b794ff;--acc2:#8b5cf6;--accs:#2b2250;--sel:#2b2250;--selb:#b794ff;color-scheme:dark}
+.th[data-t=amethyst]{background:linear-gradient(135deg,#7c3aed,#db2777)}
+:root[data-theme=emerald]{--bg:#0c1512;--card:#13221d;--tx:#e6f5ee;--mu:#8fb3a3;--line:#223a31;--ok:#14402b;--okb:#3ec27a;--ko:#4a2020;--kob:#f06a6a;--btn:#10b981;--acc:#34d399;--acc2:#10b981;--accs:#153328;--sel:#153328;--selb:#34d399;color-scheme:dark}
+.th[data-t=emerald]{background:linear-gradient(135deg,#059669,#0d9488)}
+.tab.on{box-shadow:0 4px 12px color-mix(in srgb,var(--acc) 35%,transparent)}.nav button{box-shadow:0 4px 12px color-mix(in srgb,var(--acc) 25%,transparent)}
 </style>
 </head>
 <body>
-<header><div class="w" style="padding-top:0;padding-bottom:0"><div class="bar"><button class="bk" id="bk" aria-label="Retour"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></button><div id="path"></div><button class="th" id="th"></button></div><div class="tabs"><button class="tab on" data-m="qcm"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="m8 8 1.5 1.5L12 7"/><path d="M14 9h3"/><path d="m8 15 1.5 1.5L12 14"/><path d="M14 16h3"/></svg>QCM</button><button class="tab" data-m="fc"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="7" width="14" height="13" rx="2"/><path d="M7 7V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-2"/></svg>Cartes</button></div><div id="t"></div></div></header>
+<header><div class="w" style="padding-top:0;padding-bottom:0"><div class="bar"><div id="path"></div><button class="th" id="th"></button></div><div class="tabs"><button class="tab on" data-m="qcm"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="m8 8 1.5 1.5L12 7"/><path d="M14 9h3"/><path d="m8 15 1.5 1.5L12 14"/><path d="M14 16h3"/></svg>QCM</button><button class="tab" data-m="fc"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="7" width="14" height="13" rx="2"/><path d="M7 7V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-2"/></svg>Cartes</button></div><div class="tr"><button class="bk" id="bk" aria-label="Retour"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></button><div id="t"></div></div></div></header>
 <main class="w" id="m"></main>
 <script>
 // ===== 1) البيانات =====
@@ -142,6 +164,7 @@ let ERR=new Set();try{ERR=new Set(JSON.parse(localStorage.getItem('qcm-err')||'[
 function saveErr(){try{localStorage.setItem('qcm-err',JSON.stringify([...ERR]))}catch(e){}}
 function recordErr(q,a){if(S.kind!=='qcm'||!a.length)return;const ok=a.length===q.a.length&&a.every(k=>q.a.includes(k));ok?ERR.delete(q.id):ERR.add(q.id);saveErr()} // خطأ ← يُضاف، صواب ← يُحذف
 function errList(){const m=new Map();SEC.qcm.F.forEach(f=>f.qs.forEach(q=>m.set(q.id,q)));return [...ERR].map(id=>m.get(id)).filter(Boolean)}
+IC.pal="<svg class=\"i\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 3a9 9 0 1 0 0 18c1.1 0 1.8-.9 1.5-1.9-.3-1 .3-2.1 1.4-2.1H17a4 4 0 0 0 4-4c0-5-4-10-9-10z\"/><circle cx=\"7.5\" cy=\"11\" r=\"1\"/><circle cx=\"10\" cy=\"7\" r=\"1\"/><circle cx=\"15\" cy=\"7\" r=\"1\"/></svg>";
 const L='ABCDE'; // حروف الخيارات: الخيار رقم 0 = A ، رقم 1 = B ...
 const $=s=>document.querySelector(s); // اختصار: $('#m') يجلب العنصر الذي id="m"
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); // يحوّل الرموز الخطرة لنص آمن
@@ -237,10 +260,10 @@ function setMode(m){
 }
 document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>setMode(b.dataset.m)); // نقر التبويبات
 // ===== 8) السمة (جوّ/ليل) =====
-const TM=['auto','light','dark'],TL={auto:IC.auto+'Auto',light:IC.sun+'Jour',dark:IC.moon+'Nuit'}; // ثلاث حالات
-let tm='auto';try{tm=localStorage.getItem('qcm-theme')||'auto'}catch(e){} // استرجاع السمة
-function applyTheme(){const r=document.documentElement;if(tm==='auto')r.removeAttribute('data-theme');else r.setAttribute('data-theme',tm);$('#th').innerHTML=TL[tm]} // تطبيق السمة
-$('#th').onclick=()=>{tm=TM[(TM.indexOf(tm)+1)%3];try{localStorage.setItem('qcm-theme',tm)}catch(e){}applyTheme()}; // تبديل السمة
+const TM=['auto','light','dark','ocean','forest','rose','sable','amethyst','emerald'],TL={auto:IC.auto+'Auto',light:IC.sun+'Jour',dark:IC.moon+'Nuit',ocean:IC.pal+'Océan',forest:IC.pal+'Forêt',rose:IC.pal+'Rose',sable:IC.pal+'Sable',amethyst:IC.pal+'Améthyste',emerald:IC.pal+'Émeraude'}; // ثلاث حالات
+let tm='auto';try{tm=localStorage.getItem('qcm-theme')||'auto'}catch(e){}if(!TL[tm])tm='auto'; // استرجاع السمة
+function applyTheme(){const r=document.documentElement;if(tm==='auto')r.removeAttribute('data-theme');else r.setAttribute('data-theme',tm);$('#th').innerHTML=TL[tm];$('#th').dataset.t=tm} // تطبيق السمة
+$('#th').onclick=()=>{tm=TM[(TM.indexOf(tm)+1)%TM.length];try{localStorage.setItem('qcm-theme',tm)}catch(e){}applyTheme()}; // تبديل السمة
 applyTheme();
 let m0='qcm';try{m0=localStorage.getItem('mode')||'qcm'}catch(e){} // آخر قسم مستعمل
 m0==='fc'?setMode('fc'):home(null); // البداية
