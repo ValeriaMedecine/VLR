@@ -1,1 +1,236 @@
-n
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Qcm2</title>
+<style>
+/* ===== الثيمات (الألوان) ===== كل ثيم = مجموعة متغيرات. مثال: --ac هو اللون الرئيسي للأزرار */
+:root,[data-t=sable]{--bg:#f9f4ea;--card:#fffdf8;--line:#eadfcd;--tx:#2a2117;--mu:#7a6a55;--ac:#b45309;--ac2:#d97706;--soft:#fde9cc;--ok:#dff5e3;--okb:#1f9d55;--ko:#fde1e1;--kob:#d13b3b;color-scheme:light} /* الرملي (الافتراضي) */
+[data-t=ocean]{--bg:#eef5fb;--card:#fbfdff;--line:#d5e3f1;--tx:#102235;--mu:#5b7189;--ac:#1d5fa8;--ac2:#2f80d6;--soft:#dcebfa} /* المحيط */
+[data-t=foret]{--bg:#eef6ef;--card:#fbfefb;--line:#d3e4d5;--tx:#122418;--mu:#5b7a63;--ac:#1f7a43;--ac2:#2fa862;--soft:#d9f0e0} /* الغابة */
+[data-t=rose]{--bg:#fbeff3;--card:#fffafc;--line:#f0d5de;--tx:#2e1520;--mu:#8a5f70;--ac:#be185d;--ac2:#ec4899;--soft:#fbdbe8} /* الوردي */
+[data-t=violet]{--bg:#f3effb;--card:#fcfaff;--line:#e0d6f2;--tx:#1f1535;--mu:#6e5f8c;--ac:#6d28d9;--ac2:#8b5cf6;--soft:#e7dcfb} /* البنفسجي */
+[data-t=nuit]{--bg:#14110e;--card:#1e1a16;--line:#332c25;--tx:#f1e8dc;--mu:#a89a88;--ac:#e08a2b;--ac2:#f2a34a;--soft:#3a2c1a;--ok:#15402a;--okb:#3ec27a;--ko:#4a2020;--kob:#f06a6a;color-scheme:dark} /* الليلي */
+/* هنا يمكنك إضافة المزيد من الثيمات: انسخ سطراً وغيّر الاسم والألوان ثم أضف الاسم في قائمة THEMES بالأسفل */
+
+/* ===== الهيكل العام ===== */
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent} /* العرض يشمل الحشو */
+body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,Tahoma,sans-serif} /* الخط العام */
+button{font:inherit;color:inherit;cursor:pointer;border:0;background:none;text-align:start} /* تصفير الأزرار */
+#top{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--line);padding:calc(10px + env(safe-area-inset-top,0px)) 14px 10px} /* الشريط العلوي الثابت */
+.tabs{display:flex;gap:10px} /* صف التبويبات */
+.tabs button{flex:1;display:flex;align-items:center;justify-content:center;gap:8px;padding:14px;border-radius:18px;background:var(--card);border:1px solid var(--line);font-weight:700;color:var(--mu)} /* تبويب غير نشط */
+.tabs button.on{background:linear-gradient(135deg,var(--ac),var(--ac2));color:#fff;border-color:transparent;box-shadow:0 6px 14px #0003} /* التبويب النشط */
+.nav{display:flex;align-items:center;gap:12px;margin-top:12px} /* صف الرجوع + العنوان */
+.sq{width:52px;height:52px;flex:none;display:flex;align-items:center;justify-content:center;border-radius:16px;background:var(--card);border:1px solid var(--line);color:var(--ac)} /* الأزرار المربعة */
+#ttl{flex:1;min-width:0;font-weight:800;font-size:20px;color:var(--ac);line-height:1.3} /* عنوان الصفحة */
+#thm{padding:8px 12px;border-radius:12px;background:linear-gradient(135deg,var(--ac),var(--ac2));color:#fff;font-weight:700;font-size:14px;white-space:nowrap} /* زر الثيم */
+#menu{position:absolute;inset-inline-end:14px;top:72px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:6px;box-shadow:0 10px 30px #0004;display:none;z-index:9} /* قائمة الثيمات */
+#menu.on{display:block} #menu button{display:flex;gap:10px;align-items:center;padding:9px 14px;border-radius:10px;width:100%} #menu button:hover{background:var(--soft)} /* عناصر القائمة */
+.dot{width:16px;height:16px;border-radius:50%;border:1px solid #0003} /* دائرة اللون */
+#body{padding:16px 14px 120px;max-width:760px;margin:0 auto} /* منطقة المحتوى */
+/* ===== بطاقات المجلدات ===== */
+.row{display:flex;gap:10px;margin-bottom:12px;align-items:stretch} /* صف: بطاقة + دبوس */
+.fd{flex:1;min-width:0;display:flex;align-items:center;gap:10px;padding:18px 16px;border-radius:20px;background:var(--card);border:1px solid var(--line);border-inline-start:6px solid var(--ac);font-weight:700;font-size:18px;box-shadow:0 2px 6px #0001} /* بطاقة مجلد */
+.fd .nm{flex:1;min-width:0;overflow-wrap:anywhere} /* اسم المجلد */
+.fd.err{border-inline-start-color:#d9483b} .fd.err .nm{text-align:center} /* بطاقة الأخطاء */
+.pill{display:inline-flex;align-items:center;gap:4px;padding:8px 14px;border-radius:999px;background:var(--soft);color:var(--ac);font-weight:700;font-size:16px;white-space:nowrap} /* عدّاد Q */
+.err .pill{background:#fde1e1;color:#d9483b} /* عدّاد الأخطاء */
+.act{width:64px;flex:none;display:flex;align-items:center;justify-content:center;border-radius:20px;background:var(--card);border:1px solid var(--line);color:var(--mu)} /* زر الدبوس/السلة */
+.act.on{color:var(--ac);background:var(--soft)} .act.red{color:#d9483b} /* دبوس مثبّت / سلة */
+.empty{padding:30px 10px;text-align:center;color:var(--mu)} /* رسالة فارغة */
+/* ===== شاشة المراجعة ===== */
+.crumb{color:var(--mu);font-size:14px;margin-bottom:6px} /* مسار صغير */
+.prog{display:flex;align-items:center;gap:10px;color:var(--mu);font-size:14px;margin-bottom:14px} .bar2{flex:1;height:6px;background:var(--line);border-radius:6px;overflow:hidden} .bar2 i{display:block;height:100%;background:linear-gradient(90deg,var(--ac),var(--ac2))} /* شريط التقدم */
+.q{font-weight:700;font-size:19px;margin-bottom:12px} .hint{color:var(--mu);font-size:14px;margin:-6px 0 10px} /* نص السؤال */
+.op{display:flex;gap:14px;align-items:center;width:100%;padding:14px;margin-bottom:12px;border-radius:20px;background:var(--card);border:2px solid var(--line);font-size:18px;box-shadow:0 2px 6px #0001} /* خيار الجواب */
+.lt{width:42px;height:42px;flex:none;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--soft);color:var(--ac);font-weight:800} /* حرف A B C */
+.op.sel{border-color:var(--ac)} .op.ok{background:var(--ok);border-color:var(--okb)} .op.ko{background:var(--ko);border-color:var(--kob)} /* محدد / صحيح / خاطئ */
+.rev{display:flex;gap:8px;align-items:center;justify-content:center;width:100%;padding:16px;border-radius:20px;border:2px dashed var(--ac);background:var(--soft);color:var(--ac);font-weight:700;font-size:18px;margin-top:4px} /* زر Voir la réponse */
+.exp{margin-top:14px;padding:14px;border-radius:16px;background:var(--card);border:1px solid var(--line)} /* الشرح */
+.fc{min-height:140px;display:flex;align-items:center;justify-content:center;text-align:center;padding:22px;border-radius:22px;background:var(--card);border:1px solid var(--line);font-size:20px;font-weight:700;margin-bottom:12px} .fc.back{background:var(--soft);color:var(--ac)} /* وجها البطاقة */
+#bar{position:fixed;inset-inline:0;bottom:0;display:flex;gap:12px;padding:12px 14px calc(12px + env(safe-area-inset-bottom,0px));background:linear-gradient(transparent,var(--bg) 30%);z-index:4} /* شريط التنقل السفلي */
+#bar button{flex:1;padding:16px;border-radius:18px;font-weight:700;text-align:center;font-size:17px} #pv{background:var(--soft);color:var(--ac)} #nx{background:linear-gradient(135deg,var(--ac),var(--ac2));color:#fff} #bar button:disabled{opacity:.45} /* السابق / التالي */
+/* هنا يمكنك إضافة المزيد من التنسيقات (CSS) */
+</style>
+</head>
+<body>
+<!-- ===== الواجهة ===== -->
+<div id="top">
+  <div class="tabs"><button data-k="q" id="tq"></button><button data-k="c" id="tc"></button></div>
+  <div class="nav"><button class="sq" id="back"></button><div id="ttl"></div><button id="thm"></button></div>
+</div>
+<div id="menu"></div>
+<div id="body"></div>
+<div id="bar" hidden><button id="pv">‹ Précédent</button><button id="nx">Suivant ›</button></div>
+<!-- هنا يمكنك إضافة المزيد من عناصر الواجهة (HTML) -->
+
+<script>
+// ===== قاعدة الأسئلة: تعدّلها أداة الدمج (لا تغيّر شكلها) =====
+// f = المجلدات [رقم, رقم الأب, 'M', الاسم] — مثال: [1,null,'M','UEI 01']
+// q = الأسئلة [رقم, رقم المجلد, السؤال, [الخيارات], رقم الجواب أو [أرقام], الشرح]
+const DB={"v":"2026-11-23","f":[[1,null,"M","Unité"],[2,null,"M","Modules"],[3,1,"M","UEI 2: digestif"],[4,3,"M","La cavité buccale et les glandes salivaires"]],"q":[[5,4,"Parmi les fonctions de la cavité buccale citées dans le cours, on retient :",["La mastication","La sécrétion de la bile","L'articulation des mots","L'absorption des nutriments","La dégustation"],[0,2,4],"Mastication, dégustation, insalivation et articulation des mots."],[6,4,"Selon le cours, la cavité buccale est située :",["Dans la région cervicale, au-dessous du pharynx","Au-dessus des fosses nasales et au-dessous des maxillaires","Au-dessous des fosses nasales et des maxillaires","Au-dessus des fosses nasales et des maxillaires","Au-dessous des fosses nasales et au-dessus des maxillaires"],2,"Région céphalique, sous les fosses nasales et les maxillaires."],[7,4,"Concernant ses communications, la cavité buccale s'ouvre :",["En avant sur le milieu extérieur par l'orifice oral, en arrière sur le larynx par l'isthme du gosier","En avant sur le milieu extérieur par l'orifice oral, en arrière sur le pharynx par l'isthme du gosier","En avant sur le milieu extérieur par l'isthme du gosier, en arrière sur le pharynx par l'orifice oral","En avant sur le pharynx par l'orifice oral, en arrière sur le milieu extérieur par l'isthme du gosier","En avant sur le nasopharynx par l'orifice oral, en arrière sur l'oropharynx par l'isthme du gosier"],1,"Orifice oral = en avant ; isthme du gosier = en arrière vers le pharynx."],[8,4,"Parmi ces limites de la cavité buccale, lesquelles sont exactes ?",["En bas : le palais","En arrière : l'isthme du gosier","En haut : le palais","En arrière : les arcades alvéolo-dentaires","En avant : les lèvres"],[1,2,4],"Les arcades limitent le vestibule, pas la cavité buccale globale."],[9,4,"La cavité buccale est divisée en deux parties par l'interposition :",["De l'isthme du gosier","Des lèvres et des joues","Des muscles buccinateurs","De la langue et du palais mou","Des arcades alvéolo-dentaires"],4,"Vestibule oral en avant, cavité orale propre en arrière."],[10,4,"Le vestibule oral est un espace en fer à cheval situé entre :",["Le palais en avant, les joues latéralement, les arcades alvéolo-dentaires en arrière","Les joues en avant, les lèvres latéralement, les arcades alvéolo-dentaires en arrière","Les lèvres en avant, les joues latéralement, l'isthme du gosier en arrière","Les lèvres en avant, les arcades latéralement, les joues en arrière","Les lèvres en avant, les joues latéralement, les arcades alvéolo-dentaires en arrière"],4,"Limite antérieure : lèvres ; latérale : joues ; postérieure : arcades."],[11,4,"À propos des lèvres, on retient que ce sont :",["Réunies par les commissures labiales","Des structures mobiles","Deux replis musculo-membraneux","Deux replis ostéo-fibreux fixes","Réunies par le frein labial"],[0,1,2],"Le frein labial unit la lèvre à la gencive, pas les deux lèvres."],[12,4,"Le philtrum est :",["Un sillon médian et horizontal de la lèvre inférieure","Un sillon médian et vertical de la lèvre supérieure","Un repli unissant la lèvre à la gencive","Une commissure unissant les deux lèvres","Une saillie médiane de la lèvre inférieure"],1,"Sillon médian vertical de la lèvre supérieure."],[13,4,"Le frein labial :",["Unit la lèvre supérieure à la lèvre inférieure","Correspond au muscle orbiculaire de la bouche","Constitue le sillon médian de la lèvre supérieure","Unit la muqueuse de la face interne de la lèvre à la gencive","Unit la joue à l'arcade dentaire"],3,"Face interne de la lèvre : muqueuse unie à la gencive par le frein labial."],[14,4,"La constitution d'une lèvre, de l'intérieur vers l'extérieur, est :",["Muqueuse glandulaire – peau – muscle orbiculaire de la bouche","Muscle orbiculaire de la bouche – muqueuse glandulaire – peau","Peau – muscle orbiculaire de la bouche – muqueuse glandulaire","Muqueuse glandulaire – muscle buccinateur – peau","Muqueuse glandulaire – muscle orbiculaire de la bouche – peau"],4,"Muqueuse glandulaire, orbiculaire de la bouche (4), peau."],[15,4,"La joue est formée de :",["La peau","Un plan profond : le muscle orbiculaire de la bouche","Un plan musculaire de 2 couches de muscles peauciers","Un plan profond : le buccinateur recouvert du fascia bucco-pharyngien","Un plan profond : le muscle masséter"],[0,2,3],"Plan profond = buccinateur + fascia bucco-pharyngien."],[16,4,"Le plan profond de la joue est constitué par :",["Le muscle orbiculaire de la bouche","Le muscle buccinateur recouvert du fascia bucco-pharyngien","Les muscles peauciers en deux couches","Le muscle risorius","Le muscle masséter"],1,"Buccinateur + fascia bucco-pharyngien."],[17,4,"Les arcades alvéolo-dentaires sont :",["Supérieure : zygomatique ; inférieure : mandibulaire","Supérieure : palatine ; inférieure : mandibulaire","Supérieure : maxillaire ; inférieure : mandibulaire","Supérieure : mandibulaire ; inférieure : maxillaire","Supérieure : maxillaire ; inférieure : hyoïdienne"],2,"Arcade supérieure = maxillaire ; inférieure = mandibulaire."],[18,4,"À propos des arcades alvéolo-dentaires :",["Elles supportent les dents","Elles limitent le vestibule en avant","Elles sont revêtues d'une muqueuse mince et transparente","Elles sont au nombre de deux","Elles sont revêtues d'une muqueuse rose et adhérente : la gencive"],[0,3,4],"Elles limitent le vestibule en arrière."],[19,4,"Les limites de la cavité orale propre sont :",["En haut le plancher buccal, en bas le palais, en avant et latéralement les arcades gingivo-dentaires, en arrière l'isthme du gosier","En haut le palais, en bas la langue, en avant les lèvres, latéralement les joues, en arrière l'isthme du gosier","En haut le palais, en bas le plancher buccal, en avant et latéralement les arcades gingivo-dentaires, en arrière l'isthme du gosier","En haut le palais, en bas le plancher buccal, en avant les lèvres, latéralement les arcades, en arrière le pharynx","En haut le palais mou, en bas le plancher buccal, en avant et latéralement les joues, en arrière l'isthme du gosier"],2,"Contrairement au vestibule, ici les limites avant/latérales sont les arcades gingivo-dentaires."],[20,4,"Le contenu principal de la cavité orale propre est :",["La langue","La glande sublinguale","Le muscle buccinateur","L'uvule","L'amygdale palatine"],0,"La cavité buccale est en grande partie occupée par la langue."],[21,4,"Le palais dur est formé par :",["Le maxillaire et le palatin","Le palatin et le vomer","Le maxillaire et le sphénoïde","Le maxillaire et le zygomatique","La mandibule et le maxillaire"],0,"Palais dur : osseux, maxillaire + palatin."],[22,4,"Le raphé du palais est :",["Une saillie médiane de la face supérieure du palais dur","Un repli joignant l'uvule à la langue","Une saillie médiane de la face inférieure du palais dur","Un sillon médian du palais mou","Une saillie médiane de la face inférieure du palais mou"],2,"Face inférieure du palais dur."],[23,4,"Le palais mou (voile du palais) :",["Se continue en bas et au milieu par l'uvule (luette)","Sépare l'oropharynx du laryngopharynx","Est fibro-musculaire","Est osseux, formé par le maxillaire et le palatin","Sépare le nasopharynx de l'oropharynx"],[0,2,4],"Le voile sépare naso- et oropharynx."],[24,4,"Parmi ces muscles, lesquels forment le voile du palais ?",["Le mylo-hyoïdien","Le génio-glosse","L'uvulaire","Le tenseur du voile du palais","L'élévateur du voile du palais"],[2,3,4],"Voile : élévateur, tenseur, uvulaire, palato-glosse, palato-pharyngien."],[25,4,"La muqueuse du palais contient :",["Les bourgeons du goût uniquement","Les glandes salivaires uniquement","Les papilles circumvallées et l'amygdale palatine","Les bourgeons du goût et les glandes salivaires","Les glandes salivaires et le septum lingual"],3,"Bourgeons du goût + glandes salivaires."],[26,4,"L'isthme du gosier est :",["L'ouverture de la cavité buccale dans l'oropharynx","L'ouverture du vestibule dans la cavité orale propre","L'ouverture de la cavité buccale dans le nasopharynx","L'ouverture de la cavité buccale dans le larynx","L'ouverture de la cavité buccale dans le laryngopharynx"],0,"Communication avec l'oropharynx."],[27,4,"L'isthme du gosier est limité par :",["La pointe de la langue en bas","La racine de la langue en bas","Le palais dur en haut","Le palais mou en haut","La fosse tonsillaire latéralement"],[1,3,4],"Palais mou, fosses tonsillaires, racine de la langue."],[28,4,"La fosse tonsillaire contient :",["L'amygdale pharyngienne","La tonsille (amygdale palatine)","L'uvule","La glande sublinguale","L'amygdale linguale"],1,"Tonsille = amygdale palatine."],[29,4,"Le plancher buccal est :",["Une région impaire, médiane, en fer à cheval, sous la racine de la langue","Une région paire, médiane, en forme de V, sous la racine de la langue","Une région impaire, médiane, en fer à cheval, au-dessus de la partie mobile de la langue","Une région paire, latérale, en fer à cheval, sous la partie mobile de la langue","Une région impaire, médiane, en fer à cheval, sous la partie mobile de la langue"],4,"Région sublinguale."],[30,4,"Les muscles du plancher buccal sont :",["Le stylo-glosse","Le ventre antérieur du digastrique","Le génio-hyoïdien","Le mylo-hyoïdien","Le buccinateur"],[1,2,3],"3 muscles pairs."],[31,4,"Les glandes salivaires majeures comprennent :",["La sous-mandibulaire","La parotide","La sublinguale","Les glandes labiales","Les glandes palatines"],[0,1,2],"3 paires de glandes majeures."],[32,4,"Concernant le rôle de la langue, on retient :",["Production principale de la salive","Organe principal du goût","Participation à l'articulation des mots","Absorption sublinguale exclusive des aliments","Participation à la déglutition"],[1,2,4],"Goût, déglutition, mastication, articulation."],[33,4,"La racine de la langue est :",["Fixée sur l'os hyoïde et sur la mandibule","Fixée sur l'os hyoïde et sur le palais","Fixée sur la mandibule et l'apophyse styloïde","Fixée sur le palais mou et la mandibule","Mobile et présente un apex"],0,"Racine fixe ; corps mobile."],[34,4,"Le corps de la langue :",["Est fixé sur l'os hyoïde","Présente un dos avec un sillon médian et un V lingual","Présente une face inférieure couverte de papilles","Présente deux bords latéraux et un apex","Est mobile"],[1,3,4],"Les papilles sont sur le dos (muqueuse épaisse)."],[35,4,"Le V lingual est :",["Un pli reliant la langue à l'os hyoïde","Une saillie en V à l'apex","Un sillon médian de la face inférieure","Un sillon en forme de V sur la face supérieure (dos) de la langue","Un sillon en V entre la racine de la langue et le palais"],3,"Sillon en V sur le dos ; l'amer est en arrière."],[36,4,"La face inférieure de la langue est :",["Fixée sur l'os hyoïde","Le siège du V lingual","Richement vascularisée (voie sublinguale des médicaments)","Peu vascularisée, à muqueuse épaisse","Épaisse et couverte de papilles gustatives"],2,"Muqueuse mince et transparente."],[37,4,"La muqueuse linguale est :",["Épaisse sur le dos","Mince et transparente sur le dos","Mince et transparente sur la face inférieure","Épaisse sur la face inférieure","Porteuse des papilles"],[0,2,4],"Dos : épaisse + papilles ; face inférieure : mince."],[38,4,"Le squelette ostéo-fibreux de la langue comprend :",["La mandibule, la membrane hyo-glossienne et le septum lingual","L'os hyoïde, la membrane thyro-hyoïdienne et le septum lingual","L'os hyoïde, l'aponévrose linguale et le septum nasal","L'os hyoïde, la membrane hyo-glossienne et le raphé médian","L'os hyoïde, la membrane hyo-glossienne et le septum lingual"],4,"Os hyoïde (1), membrane hyo-glossienne (2), septum lingual (3)."],[39,4,"Le nombre de muscles de la langue est de :",["17 : 7 paires et 3 impairs","15 : 7 paires et 1 impair","18 : 9 paires","16 : 8 paires","17 : 8 paires et 1 impair"],4,"8 × 2 + 1 = 17."],[40,4,"Les muscles intrinsèques de la langue sont :",["3 muscles : 1 impair et 2 pairs","4 muscles : 2 impairs et 2 pairs","3 muscles, tous pairs","2 muscles : 1 impair et 1 pair","6 muscles pairs"],0,"Longitudinal supérieur (impair), longitudinal inférieur et transverse (pairs)."],[41,4,"Parmi ces muscles, lesquels sont intrinsèques ?",["Le longitudinal supérieur","Le génio-glosse","L'hyo-glosse","Le longitudinal inférieur","Le transverse de la langue"],[0,3,4],"Les 3 intrinsèques."],[42,4,"Parmi ces muscles, lesquels sont extrinsèques ?",["Le tonsillo-glosse","Le longitudinal inférieur","Le transverse de la langue","Le stylo-glosse","Le pharyngo-glosse"],[0,3,4],"6 extrinsèques pairs."],[43,4,"Le muscle impair de la langue est :",["L'hyo-glosse","Le transverse","Le longitudinal inférieur","Le génio-glosse","Le longitudinal supérieur"],4,"Seul muscle impair."],[44,4,"À propos des bourgeons gustatifs :",["Environ 2000, de 4 types, dans la bouche, l'isthme du gosier et l'oropharynx","Environ 2000, de 5 types, dans la bouche, l'isthme du gosier et l'oropharynx","Environ 2000, de 4 types, dans la bouche et le nasopharynx","Environ 200, de 4 types, dans la bouche, l'isthme du gosier et l'oropharynx","Environ 2000, de 4 types, uniquement sur le dos de la langue"],0,"Répartis dans l'épithélium de la bouche, de l'isthme du gosier et de l'oropharynx."],[45,4,"Le territoire du goût amer se situe :",["En avant du V lingual","Sur les bords latéraux","En arrière du V lingual","À l'apex et sur la partie antérieure","À l'apex"],2,"Amer : en arrière du V."],[46,4,"Le goût salé est perçu :",["Sur la partie antérieure","Sur les bords latéraux","Uniquement au milieu du dos","À l'apex","En arrière du V lingual"],[0,1,3],"Salé : apex, partie antérieure et bords latéraux."],[47,4,"Le goût sucré est localisé :",["À la racine de la langue","En arrière du V lingual","À l'apex","Sur les bords latéraux","Sur la partie antérieure et les bords latéraux"],2,"Sucré : apex ; acide : bords latéraux."],[48,4,"Les glandes salivaires sont :",["Des glandes exocrines annexées à la cavité orale, sécrétant environ 1,5 L de salive par jour","Des glandes exocrines annexées à l'œsophage, sécrétant environ 1,5 L de salive par jour","Des glandes exocrines annexées à la cavité orale, sécrétant environ 150 mL de salive par jour","Des glandes endocrines annexées à la cavité orale, sécrétant environ 1,5 L de salive par jour","Des glandes exocrines annexées à la cavité orale, sécrétant environ 15 L de salive par jour"],0,"Exocrines, ~1,5 L/jour."],[49,4,"Les glandes salivaires mineures comprennent :",["Les glandes jugales","Les glandes palatines","Les glandes labiales","La glande sous-mandibulaire","La glande parotide"],[0,1,2],"Petites glandes dispersées dans la muqueuse."],[50,4,"Les glandes salivaires mineures s'ouvrent :",["Dans le vestibule uniquement par le canal de Stenon","Directement dans la cavité orale par des conduits excréteurs courts","Dans le plancher buccal par le canal de Wharton","Dans le pharynx par des conduits longs","Dans la cavité orale par un canal unique volumineux"],1,"Conduits excréteurs courts."],[51,4,"La glande parotide est située :",["En avant de la branche montante de la mandibule, au-dessous du conduit auditif externe","Dans le plancher buccal","En arrière de la branche montante de la mandibule, au-dessus du conduit auditif externe","En arrière de la branche montante de la mandibule, au-dessous du conduit auditif externe","Dans la partie latérale de la région sus-hyoïdienne"],3,"Rétro-mandibulaire, sous le conduit auditif externe."],[52,4,"À propos de la glande parotide :",["Son canal excréteur est le canal de Stenon","Le nerf facial passe en arrière de la glande, sans rapport avec les lobes","Elle comprend un lobe superficiel et un lobe profond","Son canal excréteur est le canal de Wharton","C'est la plus volumineuse des glandes salivaires"],[0,2,4],"Le nerf facial circule entre les deux lobes."],[53,4,"La glande sous-mandibulaire :",["Siège à la partie latérale de la région sus-hyoïdienne et possède plusieurs canaux excréteurs","Siège à la partie latérale de la région sus-hyoïdienne et s'ouvre par le canal de Wharton","Siège dans le plancher buccal et s'ouvre par le canal de Wharton","Siège à la partie latérale de la région sus-hyoïdienne et s'ouvre par le canal de Stenon","Siège dans la région parotidienne et s'ouvre par le canal de Wharton"],1,"Canal de Wharton."],[54,4,"La glande sublinguale :",["Siège dans le plancher buccal ; glande unique drainée par le canal de Wharton","Siège dans le plancher buccal ; ensemble de petites glandes à plusieurs canaux excréteurs","Siège dans la joue ; glande unique drainée par le canal de Stenon","Siège dans le plancher buccal ; glande unique drainée par le canal de Stenon","Siège dans la région sus-hyoïdienne ; ensemble de petites glandes à plusieurs canaux excréteurs"],1,"Plusieurs canaux excréteurs."]]};
+// ===== قاعدة البطاقات: c = [رقم, رقم المجلد, الوجه الأمامي, الخلفي] =====
+const FC={"f":[[1,null,"M","Unité"],[2,null,"M","Modules"],[3,1,"M","UEI 2: digestif"],[4,3,"M","La cavité buccale et les glandes salivaires"]],"c":[[5,4,"Rôle de la cavité buccale ?","Partie initiale de l'appareil digestif"],[6,4,"Fonctions de la cavité buccale ?","Mastication, dégustation, insalivation des aliments, articulation des mots"],[7,4,"Situation de la cavité buccale ?","Région céphalique, au-dessous des fosses nasales et des maxillaires"],[8,4,"Communication en avant ?","Avec le milieu extérieur par l'orifice oral"],[9,4,"Communication en arrière ?","Avec le pharynx par l'isthme du gosier"],[10,4,"Limite antérieure de la cavité buccale ?","Les lèvres"],[11,4,"Limite latérale de la cavité buccale ?","Les joues"],[12,4,"Limite supérieure de la cavité buccale ?","Le palais"],[13,4,"Limite inférieure de la cavité buccale ?","Le plancher buccal"],[14,4,"Limite postérieure de la cavité buccale ?","L'isthme du gosier"],[15,4,"Division topographique de la cavité buccale ?","Vestibule oral (en avant) et cavité orale propre (en arrière), séparés par les arcades alvéolo-dentaires"],[16,4,"Forme du vestibule oral ?","Espace en fer à cheval"],[17,4,"Limite antérieure du vestibule ?","Les lèvres"],[18,4,"Limite latérale du vestibule ?","Les joues"],[19,4,"Limite postérieure du vestibule ?","Les arcades alvéolo-dentaires"],[20,4,"Nature des lèvres ?","Deux replis musculo-membraneux, mobiles"],[21,4,"Qu'est-ce qui réunit les lèvres ?","Les commissures labiales"],[22,4,"Philtrum ?","Sillon médian et vertical de la lèvre supérieure"],[23,4,"Frein labial ?","Unit la muqueuse de la face interne de la lèvre à la gencive"],[24,4,"Constitution des lèvres (intérieur → extérieur) ?","Muqueuse glandulaire, muscle orbiculaire de la bouche, peau"],[25,4,"Muscle de la lèvre ?","Orbiculaire de la bouche"],[26,4,"Constitution de la joue ?","Peau + plan musculaire (2 couches de muscles peauciers) dont le plan profond est le buccinateur"],[27,4,"Rôle de la peau de la joue ?","Participe à l'expression du visage"],[28,4,"Plan profond de la joue ?","Muscle buccinateur recouvert du fascia bucco-pharyngien"],[29,4,"Nombre d'arcades alvéolo-dentaires ?","Deux : supérieure (maxillaire) et inférieure (mandibulaire)"],[30,4,"Arcade supérieure ?","Maxillaire"],[31,4,"Arcade inférieure ?","Mandibulaire"],[32,4,"Gencive ?","Muqueuse rose et adhérente qui revêt les arcades"],[33,4,"Que supportent les arcades ?","Les dents"],[34,4,"Limite supérieure de la cavité orale propre ?","Le palais"],[35,4,"Limite inférieure de la cavité orale propre ?","Le plancher buccal"],[36,4,"Limites antérieure et latérale de la cavité orale propre ?","Les arcades gingivo-dentaires"],[37,4,"Limite postérieure de la cavité orale propre ?","L'isthme du gosier"],[38,4,"Contenu principal de la cavité orale propre ?","La langue"],[39,4,"Rôle du palais ?","Forme la paroi supérieure de la bouche"],[40,4,"Parties du palais ?","Palais dur et palais mou"],[41,4,"Nature du palais dur ?","Osseux"],[42,4,"Os du palais dur ?","Maxillaire et palatin"],[43,4,"Raphé du palais ?","Saillie médiane de la face inférieure du palais dur"],[44,4,"Autre nom du palais mou ?","Voile du palais (fibro-musculaire)"],[45,4,"Rôle du palais mou ?","Sépare le nasopharynx de l'oropharynx"],[46,4,"Uvule ?","Luette : prolongement du palais mou en bas et au milieu"],[47,4,"Muscles du voile du palais ?","Élévateur, tenseur, uvulaire, palato-glosse, palato-pharyngien"],[48,4,"Que contient la muqueuse du palais ?","Bourgeons du goût et glandes salivaires"],[49,4,"Isthme du gosier ?","Ouverture de la cavité buccale dans l'oropharynx"],[50,4,"Isthme du gosier : limite supérieure ?","Le palais mou"],[51,4,"Isthme du gosier : limite latérale ?","La fosse tonsillaire"],[52,4,"Isthme du gosier : limite inférieure ?","La racine de la langue"],[53,4,"Que contient la fosse tonsillaire ?","La tonsille (amygdale palatine)"],[54,4,"Plancher buccal : type de région ?","Impaire et médiane, en fer à cheval"],[55,4,"Plancher buccal : situation ?","Sous la partie mobile de la langue (région sublinguale)"],[56,4,"Muscles du plancher buccal ?","3 muscles pairs : mylo-hyoïdien, génio-hyoïdien, ventre antérieur du digastrique"],[57,4,"Langue : organe principal de quoi ?","Du goût"],[58,4,"Langue : autres rôles ?","Déglutition, mastication, articulation des mots"],[59,4,"Parties de la langue ?","Racine et corps"],[60,4,"Fixation de la racine de la langue ?","Os hyoïde et mandibule"],[61,4,"Éléments du corps de la langue ?","Face supérieure (dos), face inférieure, 2 bords latéraux, apex"],[62,4,"Le dos de la langue présente ?","Un sillon médian et un sillon en V (V lingual)"],[63,4,"V lingual ?","Sillon en forme de V sur le dos de la langue"],[64,4,"Face inférieure de la langue ?","Richement vascularisée : voie sublinguale des médicaments"],[65,4,"Muqueuse du dos de la langue ?","Épaisse, contient les papilles"],[66,4,"Muqueuse de la face inférieure ?","Mince et transparente"],[67,4,"Squelette ostéo-fibreux de la langue ?","Os hyoïde, membrane hyo-glossienne, septum lingual"],[68,4,"Nombre de muscles de la langue ?","17 : 8 paires et 1 impair"],[69,4,"Deux groupes de muscles linguaux ?","Intrinsèques et extrinsèques"],[70,4,"Muscles intrinsèques : nombre ?","3 : 1 impair et 2 pairs"],[71,4,"Muscle intrinsèque impair ?","Longitudinal supérieur"],[72,4,"Muscles intrinsèques pairs ?","Longitudinal inférieur et transverse"],[73,4,"Muscles extrinsèques : nombre ?","6 muscles pairs"],[74,4,"Liste des extrinsèques ?","Génio-glosse, hyo-glosse, tonsillo-glosse, stylo-glosse, pharyngo-glosse, palato-glosse"],[75,4,"Nombre de bourgeons gustatifs ?","Environ 2000"],[76,4,"Siège des bourgeons gustatifs ?","Épithélium de la bouche, de l'isthme du gosier et de l'oropharynx"],[77,4,"Types de goûts ?","4 : sucré, salé, acide, amer"],[78,4,"Zone du sucré ?","Apex"],[79,4,"Zone du salé ?","Apex, partie antérieure et bords latéraux"],[80,4,"Zone de l'acide ?","Bords latéraux"],[81,4,"Zone de l'amer ?","En arrière du V lingual"],[82,4,"Nature des glandes salivaires ?","Glandes exocrines annexées à la cavité orale"],[83,4,"Volume de salive par jour ?","Environ 1,5 litre"],[84,4,"Classification des glandes salivaires ?","Mineures (accessoires) et majeures (principales), selon leur volume"],[85,4,"Glandes salivaires mineures ?","Petites glandes dispersées dans la muqueuse de la cavité orale"],[86,4,"Ouverture des glandes mineures ?","Directement dans la cavité orale par des conduits excréteurs courts"],[87,4,"Types de glandes mineures ?","Labiales, jugales, palatines, linguales"],[88,4,"Nombre de glandes majeures ?","3 paires"],[89,4,"Glandes majeures ?","Parotide, sous-mandibulaire, sublinguale"],[90,4,"Plus volumineuse des glandes salivaires ?","La parotide"],[91,4,"Situation de la parotide ?","En arrière de la branche montante de la mandibule, sous le conduit auditif externe"],[92,4,"Lobes de la parotide ?","2 : superficiel et profond"],[93,4,"Qu'est-ce qui passe entre les lobes de la parotide ?","Le nerf facial et les vaisseaux nourriciers"],[94,4,"Canal excréteur de la parotide ?","Canal de Stenon"],[95,4,"Situation de la glande sous-mandibulaire ?","Partie latérale de la région sus-hyoïdienne"],[96,4,"Taille de la glande sous-mandibulaire ?","Variable"],[97,4,"Canal excréteur de la sous-mandibulaire ?","Canal de Wharton"],[98,4,"Situation de la glande sublinguale ?","Plancher buccal"],[99,4,"Nature de la glande sublinguale ?","Ensemble de petites glandes"],[100,4,"Canaux de la glande sublinguale ?","Plusieurs canaux excréteurs"],[101,4,"Canal de Stenon : quelle glande ?","La parotide"],[102,4,"Canal de Wharton : quelle glande ?","La glande sous-mandibulaire"],[103,4,"Piège : limite postérieure du vestibule vs de la cavité buccale ?","Vestibule : arcades alvéolo-dentaires ; cavité buccale : isthme du gosier"],[104,4,"Piège : palais dur vs palais mou ?","Dur = osseux (maxillaire + palatin) ; mou = fibro-musculaire (voile), terminé par l'uvule"]]};
+
+// ===== أدوات عامة =====
+const $ = s => document.querySelector(s);   // اختصار: $('#body') يجلب العنصر الذي id=body
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])).replace(/\n/g,'<br>'); // يمنع كسر HTML + يحوّل الأسطر
+const ls = {                                 // تخزين آمن في المتصفح (قد يفشل في بعض الحالات)
+  get(k,d){ try{ const v=localStorage.getItem(k); return v==null?d:JSON.parse(v); }catch(e){ return d; } }, // قراءة: ls.get('theme','sable')
+  set(k,v){ try{ localStorage.setItem(k,JSON.stringify(v)); }catch(e){} }                                    // كتابة: ls.set('theme','nuit')
+};
+const svg = d => `<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${d}</svg>`; // قالب الأيقونة
+const IC = {                                 // الأيقونات — هنا يمكنك إضافة المزيد...
+  back: svg('<path d="M15 18l-6-6 6-6"/>'), chev: svg('<path d="M9 18l6-6-6-6"/>'),
+  trash: svg('<path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14M10 11v6M14 11v6"/>'),
+  pin: svg('<path d="M9 3h6l-1 6 3 3H7l3-3-1-6zM12 12v9"/>'),
+  warn: svg('<path d="M12 3L2 20h20L12 3zM12 10v4M12 17v.5"/>'),
+  qcm: svg('<rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 9l2 2 3-3M8 15h8"/>'),
+  cards: svg('<rect x="8" y="8" width="12" height="12" rx="2"/><path d="M4 16V6a2 2 0 012-2h10"/>'),
+  eye: svg('<path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>')
+};
+
+// ===== الثيمات =====
+const THEMES = [['sable','Sable','#d97706'],['ocean','Océan','#2f80d6'],['foret','Forêt','#2fa862'],['rose','Rose','#ec4899'],['violet','Violet','#8b5cf6'],['nuit','Nuit','#14110e']]; // [الرمز، الاسم، لون الدائرة]
+let theme = ls.get('qcm2-theme','sable');    // الثيم المحفوظ
+function applyTheme(){
+  if(!THEMES.some(t => t[0]===theme)) theme='sable';            // حماية من قيمة غير معروفة
+  document.documentElement.dataset.t = theme;                   // يفعّل متغيرات CSS الخاصة بالثيم
+  $('#thm').textContent = '🎨 ' + THEMES.find(t => t[0]===theme)[1]; // اسم الثيم على الزر
+  $('#menu').innerHTML = THEMES.map(t => `<button data-th="${t[0]}"><span class="dot" style="background:${t[2]}"></span>${t[1]}</button>`).join('');
+}
+
+// ===== الحالة =====
+let kind = 'q';                              // q = QCM ، c = بطاقات
+let path = [];                               // مسار المجلدات المفتوحة (أرقام)
+let S = null;                                // جلسة المراجعة الجارية (null = نعرض قائمة المجلدات)
+const D = () => kind==='q' ? {F:DB.f, I:DB.q} : {F:FC.f, I:FC.c};          // بيانات الوضع الحالي
+const kids = (F,id) => F.filter(f => f[1]===id);                           // أبناء مجلد (null = الجذر)
+const desc = (F,id) => [id, ...kids(F,id).flatMap(k => desc(F,k[0]))];     // المجلد وكل أحفاده
+const total = id => { const {F,I}=D(), s=new Set(desc(F,id)); return I.filter(x => s.has(x[1])).length; }; // عدد العناصر داخل مجلد
+const direct = id => D().I.filter(x => x[1]===id).length;                  // العناصر المباشرة فقط
+const nameOf = id => (D().F.find(f => f[0]===id)||[])[3] || '';            // اسم مجلد
+const errs = () => ls.get('qcm2-err',[]).filter(id => DB.q.some(x => x[0]===id)); // أرقام الأسئلة الخاطئة (الموجودة فقط)
+const pins = () => ls.get('qcm2-pin',[]);                                  // المجلدات المثبّتة
+const L = n => String.fromCharCode(65+n);                                  // 0→A , 1→B ...
+
+// ===== رسم قائمة المجلدات =====
+function listHTML(){
+  const {F,I} = D(), cur = path.length ? path[path.length-1] : null, u = kind==='q' ? 'Q' : 'C';
+  if(!I.length && !F.length) return `<div class="empty">📭 القاعدة فارغة.<br>أضف دروساً عبر أداة الدمج.</div>`;
+  let h = '';
+  if(kind==='q' && cur===null){               // بطاقة «Mes erreurs» في الجذر فقط
+    const n = errs().length;
+    h += `<div class="row"><button class="fd err" data-act="errs">${IC.warn}<span class="nm">Mes erreurs</span><span class="pill">${n} Q ${IC.chev}</span></button><button class="act red" data-act="clr">${IC.trash}</button></div>`;
+  }
+  const subs = kids(F,cur), P = pins();
+  if(cur!==null && subs.length){              // داخل مجلد له أبناء: خيارات المراجعة الشاملة
+    if(direct(cur)) h += `<div class="row"><button class="fd" data-act="own"><span class="nm">⭐ Ce dossier seul</span><span class="pill">${direct(cur)} ${u} ${IC.chev}</span></button></div>`;
+    h += `<div class="row"><button class="fd" data-act="all"><span class="nm">▶ Tout réviser</span><span class="pill">${total(cur)} ${u} ${IC.chev}</span></button></div>`;
+  }
+  subs.map((f,i) => [f,i]).sort((a,b) => (P.includes(kind+':'+b[0][0]) - P.includes(kind+':'+a[0][0])) || a[1]-b[1]).forEach(([f]) => { // المثبّتة أولاً
+    const on = P.includes(kind+':'+f[0]);
+    h += `<div class="row"><button class="fd" data-open="${f[0]}"><span class="nm">${esc(f[3])}</span><span class="pill">${total(f[0])} ${u} ${IC.chev}</span></button><button class="act ${on?'on':''}" data-pin="${f[0]}">${on ? IC.pin.replace('fill="none"','fill="currentColor"') : IC.pin}</button></div>`;
+  });
+  return h || `<div class="empty">Dossier vide.</div>`;
+}
+
+// ===== رسم شاشة المراجعة =====
+function studyHTML(){
+  const x = S.items[S.i], st = S.st[S.i] || (S.st[S.i] = {sel:[], rev:false}), n = S.items.length;
+  let h = `<div class="crumb">${esc(S.crumb)}</div><div class="prog"><span>${S.i+1} / ${n}</span><div class="bar2"><i style="width:${(S.i+1)/n*100}%"></i></div></div>`;
+  if(kind==='q'){
+    const ans = [].concat(x[4]);              // الجواب قد يكون رقماً أو قائمة
+    h += `<div class="q">${esc(x[2])}</div>${ans.length>1 ? '<div class="hint">Plusieurs réponses possibles</div>' : ''}`;
+    h += x[3].map((t,j) => {
+      let c = 'op';
+      if(st.rev){ if(ans.includes(j)) c += ' ok'; else if(st.sel.includes(j)) c += ' ko'; } else if(st.sel.includes(j)) c += ' sel'; // ألوان النتيجة
+      return `<button class="${c}" data-o="${j}"><span class="lt">${L(j)}</span><span>${esc(t)}</span></button>`;
+    }).join('');
+    if(st.rev && x[5]) h += `<div class="exp">💡 ${esc(x[5])}</div>`;
+  } else {
+    h += `<div class="fc">${esc(x[2])}</div>` + (st.rev ? `<div class="fc back">${esc(x[3])}</div>` : '');
+  }
+  if(!st.rev) h += `<button class="rev" data-act="rev">${IC.eye} Voir la réponse</button>`;
+  return h;
+}
+
+// ===== الرسم العام =====
+function render(top){
+  document.querySelectorAll('.tabs button').forEach(b => b.classList.toggle('on', b.dataset.k===kind)); // التبويب النشط
+  $('#ttl').textContent = S ? S.name : (path.length ? nameOf(path[path.length-1]) : 'Choisir un dossier'); // العنوان
+  $('#back').style.visibility = (S || path.length) ? 'visible' : 'hidden';                                  // زر الرجوع
+  $('#bar').hidden = !S;                                                                                    // شريط السابق/التالي
+  if(S){ $('#pv').disabled = S.i===0; $('#nx').textContent = S.i===S.items.length-1 ? 'Terminer' : 'Suivant ›'; }
+  $('#body').innerHTML = S ? studyHTML() : listHTML();
+  if(top) window.scrollTo(0,0);               // العودة لأعلى الصفحة عند تغيير الشاشة
+}
+
+// ===== بدء المراجعة =====
+function study(ids, name, leaf){
+  const {I} = D(), s = new Set(ids), items = I.filter(x => s.has(x[1]));
+  if(!items.length) return;
+  S = {items, i:0, name, st:{}, leaf:!!leaf, crumb: path.map(nameOf).join(' › ')}; // leaf: مجلد بلا أبناء (نُخرجه من المسار عند الخروج)
+  render(true);
+}
+function studyErrors(){
+  const e = errs(), items = DB.q.filter(x => e.includes(x[0]));
+  if(!items.length) return;
+  S = {items, i:0, name:'Mes erreurs', st:{}, crumb:'Révision des erreurs'};
+  render(true);
+}
+function go(d){                               // تنقّل: +1 التالي ، -1 السابق
+  const j = S.i + d;
+  if(j >= S.items.length){ if(S.leaf) path.pop(); S = null; return render(true); } // انتهت المراجعة
+  if(j < 0) return;
+  S.i = j; render(true);
+}
+function reveal(){
+  const x = S.items[S.i], st = S.st[S.i]; st.rev = true;
+  if(kind==='q' && st.sel.length){            // تسجيل الأخطاء/إزالتها
+    const ans = [].concat(x[4]), good = ans.length===st.sel.length && ans.every(a => st.sel.includes(a));
+    let e = ls.get('qcm2-err',[]).filter(id => id!==x[0]); if(!good) e.push(x[0]); ls.set('qcm2-err', e);
+  }
+  render();
+}
+
+// ===== الأحداث =====
+document.addEventListener('click', e => {
+  const t = e.target.closest('button'); if(!t) return;
+  if(!t.closest('#menu') && t.id!=='thm') $('#menu').classList.remove('on'); // إغلاق القائمة
+  if(t.dataset.k){ kind = t.dataset.k; path = []; S = null; render(true); }   // تبديل QCM/Cartes
+  else if(t.id==='thm') $('#menu').classList.toggle('on');                    // فتح قائمة الثيمات
+  else if(t.dataset.th){ theme = t.dataset.th; ls.set('qcm2-theme',theme); applyTheme(); $('#menu').classList.remove('on'); }
+  else if(t.id==='back'){ if(S){ if(S.leaf) path.pop(); S = null; } else path.pop(); render(true); }    // رجوع
+  else if(t.id==='pv') go(-1);
+  else if(t.id==='nx') go(1);
+  else if(t.dataset.open){                    // فتح مجلد: له أبناء → ندخله ، وإلا نبدأ المراجعة
+    const id = +t.dataset.open, {F} = D();
+    if(kids(F,id).length){ path.push(id); render(true); }
+    else { path.push(id); study([id], nameOf(id), true); }
+  }
+  else if(t.dataset.pin){                     // تثبيت/إلغاء تثبيت
+    const k = kind+':'+t.dataset.pin, P = pins(), i = P.indexOf(k); i<0 ? P.push(k) : P.splice(i,1); ls.set('qcm2-pin',P); render();
+  }
+  else if(t.dataset.act==='errs') studyErrors();
+  else if(t.dataset.act==='clr'){ if(errs().length && confirm('Effacer toutes les erreurs ?')){ ls.set('qcm2-err',[]); render(); } }
+  else if(t.dataset.act==='own'){ const c = path[path.length-1]; study([c], nameOf(c)); }
+  else if(t.dataset.act==='all'){ const c = path[path.length-1]; study(desc(D().F,c), nameOf(c)); }
+  else if(t.dataset.act==='rev') reveal();
+  else if(t.dataset.o!==undefined && S && kind==='q'){ // اختيار جواب
+    const st = S.st[S.i], j = +t.dataset.o, multi = [].concat(S.items[S.i][4]).length>1;
+    if(st.rev) return;
+    if(multi){ st.sel = st.sel.includes(j) ? st.sel.filter(v => v!==j) : st.sel.concat(j); render(); } // متعدد: تبديل ثم «Voir la réponse»
+    else { st.sel = [j]; reveal(); }                                                                  // واحد: كشف فوري
+  }
+});
+$('#tq').innerHTML = IC.qcm + ' QCM';        // نص التبويبين
+$('#tc').innerHTML = IC.cards + ' Cartes';
+$('#back').innerHTML = IC.back;              // أيقونة الرجوع
+applyTheme(); render();                      // التشغيل الأول
+// هنا يمكنك إضافة المزيد من الدوال (JavaScript)
+</script>
+</body>
+</html>
